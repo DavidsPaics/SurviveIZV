@@ -2,9 +2,9 @@
 
 int main()
 {
-    auto window = sf::RenderWindow(sf::VideoMode({1920u, 1080u}), "CMake SFML Project");
-    window.setFramerateLimit(144);
-    sf::CircleShape shape(50.f);
+    auto window = sf::RenderWindow(sf::VideoMode({320u, 180u}), "CMake SFML Project", sf::Style::Default);
+    window.setFramerateLimit(60);
+    sf::CircleShape shape(32.f);
     // set the shape color to green
     shape.setFillColor(sf::Color(100, 250, 50));
 
