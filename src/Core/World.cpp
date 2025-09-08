@@ -1,6 +1,6 @@
 #include <SFML/Graphics.hpp>
-#include "World.hpp"
-#include "logging.hpp"
+#include "Core/World.hpp"
+#include "Utils/logging.hpp"
 
 //TODO: This is a placeholder, FIX world.hpp first
 

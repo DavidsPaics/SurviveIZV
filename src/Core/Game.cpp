@@ -1,5 +1,5 @@
 #include <SFML/Graphics.hpp>
-#include "logging.hpp"
+#include "Utils/logging.hpp"
 #include "Game.hpp"
 
 Game::Game(sf::RenderWindow &window) : window(window), renderTexture({640,360}), renderSprite(renderTexture.getTexture())
@@ -33,7 +33,7 @@ void Game::run()
     {
         handleEvents();
 
-        // FIXME: REMOVE SOON
+        // FIX: REMOVE SOON
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) {
             testCoords.x += 100.f * deltaTime;
         }
