@@ -1,0 +1,40 @@
+# VSCode settings
+.vscode/
+*.code-workspace
+
+# CMake build folders
+build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+CTestTestfile.cmake
+Testing/
+
+# Compiled object files and binaries
+*.o
+*.obj
+*.so
+*.dll
+*.dylib
+*.exe
+*.out
+*.a
+*.lib
+
+# SFML generated files (if any)
+sfml-build/
+sfml-install/
+
+# Other
+*.log
+*.user
+*.swp
+*.swo
+*.DS_Store
+*.tmp
+*.bak
+
+# Ignore generated documentation
+/docs/html/
+docs/html/
