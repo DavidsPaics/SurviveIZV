@@ -4,10 +4,14 @@ int main()
 {
     auto window = sf::RenderWindow(sf::VideoMode({1920u, 1080u}), "CMake SFML Project");
     window.setFramerateLimit(144);
+    sf::CircleShape shape(50.f);
+    // set the shape color to green
+    shape.setFillColor(sf::Color(100, 250, 50));
 
     while (window.isOpen())
     {
-        window.clear(sf::Color(50, 50, 50));
+
+        
         while (const std::optional event = window.pollEvent())
         {
             if (event->is<sf::Event::Closed>())
@@ -15,8 +19,11 @@ int main()
                 window.close();
             }
         }
-
+        
         window.clear();
+        
+        window.draw(shape);
+
         window.display();
     }
 }
