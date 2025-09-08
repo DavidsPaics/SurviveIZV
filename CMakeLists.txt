@@ -23,3 +23,14 @@ target_include_directories(main
 
 target_compile_features(main PRIVATE cxx_std_17)
 target_link_libraries(main PRIVATE SFML::Graphics)
+
+# Create a custom target to copy assets if they change
+add_custom_target(copy_assets ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_SOURCE_DIR}/assets
+    ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets
+    COMMENT "Copying updated assets to output directory"
+)
+
+# Make sure the executable depends on the asset copy step
+add_dependencies(main copy_assets)
