@@ -1,8 +1,9 @@
 #include <SFML/Graphics.hpp>
 #include "Utils/logging.hpp"
 #include "Game.hpp"
+#include "Utils/globals.hpp"
 
-Game::Game(sf::RenderWindow &window) : window(window), renderTexture({640,360}), renderSprite(renderTexture.getTexture())
+Game::Game(sf::RenderWindow &window) : window(window), renderTexture(globals::renderResolution), renderSprite(renderTexture.getTexture())
 {
     // Set up the sprite that will draw the renderTexture onto the window
     renderSprite.setTexture(renderTexture.getTexture());
