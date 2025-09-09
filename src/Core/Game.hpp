@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include "Core/World.hpp"
 #pragma once
 
 class Game {
@@ -8,11 +9,14 @@ public:
 
 private:
     void handleEvents();
+    void handleResize();
 
 private:
     sf::RenderWindow& window;
     sf::RenderTexture renderTexture;
     sf::Sprite renderSprite;
+
+    World world;
 
     sf::Clock clock;
     bool debugEnabled = true;

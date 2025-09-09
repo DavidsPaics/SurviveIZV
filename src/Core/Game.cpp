@@ -9,17 +9,9 @@ Game::Game(sf::RenderWindow &window) : window(window), renderTexture(globals::re
     // Set up the sprite that will draw the renderTexture onto the window
     renderSprite.setTexture(renderTexture.getTexture());
 
-    // Calculate scale factor to fit the window
-    float scaleX = static_cast<float>(window.getSize().x) / renderTexture.getSize().x;
-    float scaleY = static_cast<float>(window.getSize().y) / renderTexture.getSize().y;
-    renderSprite.setScale({std::min(scaleX, scaleY), std::min(scaleX, scaleY)});
-
-    sf::FloatRect bounds = renderSprite.getLocalBounds();
-    renderSprite.setOrigin({bounds.size.x / 2.f, bounds.size.y / 2.f});
-
-    // Position in the center of the window
-    renderSprite.setPosition(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2));
+    handleResize();
 }
+
 void Game::run()
 {
     logging::INFO("Game started");
@@ -27,65 +19,77 @@ void Game::run()
     auto testCoords = sf::Vector2f({100,100});
 
     sf::Font funFont("assets/fonts/COMIC.ttf");
-    
-    // FPS Text
-    sf::Text fpsText(funFont, "fps:");
-    fpsText.setStyle(sf::Text::Bold);
-    fpsText.setCharacterSize(24);
-    fpsText.setFillColor(sf::Color::Green);
-    fpsText.setPosition({50,10});
-
-    // window.setFramerateLimit(60);
-
-    sf::Sprite testSprite(TextureManager::getInstance().getTexture("test"));
-
-    sf::CircleShape shape(32.f);
-    shape.setFillColor(sf::Color(100, 250, 50));
 
     clock.restart();
 
     sf::Clock deltaClock;
     float deltaTime = 0.0f;
 
-    sf::Clock fpsClock;
+    sf::Clock fpsUpdateClock;
+    int frameCount = 0;
 
     while (window.isOpen())
     {
-        handleEvents();
-
-        // FIX: REMOVE SOON
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) {
-            testCoords.x += 100.f * deltaTime;
-        }
-        testSprite.setPosition(testCoords);
-        //////
-
         deltaTime = deltaClock.restart().asSeconds();
-        // world.update(deltaTime);
 
+        handleEvents();
+        
+        frameCount++;
+        if (fpsUpdateClock.getElapsedTime().asSeconds() > 1) {
+            std::cout << frameCount << " FPS\n";
+            frameCount = 0;
+            fpsUpdateClock.restart();
+        }
+        world.update(deltaTime);
+        
         // Render to off-screen render texture
         renderTexture.clear(sf::Color::Blue);
-        renderTexture.draw(testSprite);
+
+
+        world.render(renderTexture);
+
+
         renderTexture.display();
 
+        ////////////////////////////////////////////
+
         // Render to the actual window
+        // window.setView(window.getDefaultView()); //FIXME: remove for camera,hack to resize
         window.clear(sf::Color::Black);
         window.draw(renderSprite);
-
-        if (debugEnabled)
-        {
-            if (fpsClock.getElapsedTime().asMilliseconds() > 500){
-                std::ostringstream ss;
-                ss << std::fixed << std::setprecision(0) << (1.0f/deltaTime) << " FPS";
-                fpsText.setString(ss.str());
-                fpsClock.restart();
-            }
-            window.draw(fpsText);
-        }
-
-
         window.display();
     }
+}
+
+
+//FIXME: THIS IS COMPLATELY BROKEN, I AM LOSING MY MIND, IT WORKS ON FIRST RUN BUT NOT ON RESIZE
+void Game::handleResize()
+{
+    // Don't reassign the texture here — set it once in the constructor.
+    // Reset only transform state
+    renderSprite.setScale({1.f, 1.f});
+    renderSprite.setOrigin({0.f, 0.f});
+    renderSprite.setPosition({0.f, 0.f});
+
+    const auto win = window.getSize();
+    const auto tex = renderTexture.getSize();
+
+    // Debug print once per resize (helpful)
+    std::cout << "RESIZE win=" << win.x << "x" << win.y
+              << " tex=" << tex.x << "x" << tex.y << "\n";
+
+    const float scaleX = static_cast<float>(win.x) / static_cast<float>(tex.x);
+    const float scaleY = static_cast<float>(win.y) / static_cast<float>(tex.y);
+    const float scale  = std::min(scaleX, scaleY);
+
+    renderSprite.setScale({scale, scale});
+
+    // origin in local tex coordinates (untransformed)
+    renderSprite.setOrigin({static_cast<float>(tex.x) * 0.5f,
+                            static_cast<float>(tex.y) * 0.5f});
+
+    renderSprite.setPosition({static_cast<float>(win.x) * 0.5f,
+                              static_cast<float>(win.y) * 0.5f});
 }
 
 
@@ -99,13 +103,10 @@ void Game::handleEvents()
             window.close();
         }
 
-        else if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>())
-        {
-            if (keyPressed->code == sf::Keyboard::Key::F3)
-            {
-                debugEnabled = !debugEnabled;
-            }
-        }
-
+        //shit
+        // if (event->is<sf::Event::Resized>())
+        // {
+        //     handleResize();
+        // }
     }
 }
