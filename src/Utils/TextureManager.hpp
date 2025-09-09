@@ -1,26 +1,31 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <map>
-#include <memory>
 #include <string>
-#include <stdexcept>
-
-// Optional logging utility
-#include "Utils/logging.hpp"
+#include <unordered_map>
+#include <memory>
+#include <mutex>
 
 class TextureManager {
 public:
-    // Get the singleton instance
-    static TextureManager& getInstance();
+    // Delete copy and move semantics
+    TextureManager(const TextureManager&) = delete;
+    TextureManager& operator=(const TextureManager&) = delete;
+    TextureManager(TextureManager&&) = delete;
+    TextureManager& operator=(TextureManager&&) = delete;
+
+    // Access the single instance
+    static TextureManager& getInstance() {
+        static TextureManager instance{}; // Thread-safe since C++11
+        return instance;
+    }
 
     sf::Texture& getTexture(const std::string& name);
 
-    void preloadTexture(const std::string& name);
-
 private:
-    TextureManager() = default; // private constructor
-    ~TextureManager() = default;
+    std::unordered_map<std::string, sf::Texture> textures;
 
-    std::map<std::string, std::unique_ptr<sf::Texture>> textures;
+protected:
+    TextureManager() = default;
+    ~TextureManager() = default;
 };

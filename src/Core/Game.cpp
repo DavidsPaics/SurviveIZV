@@ -2,6 +2,7 @@
 #include "Utils/logging.hpp"
 #include "Game.hpp"
 #include "Utils/globals.hpp"
+#include "Utils/TextureManager.hpp"
 
 Game::Game(sf::RenderWindow &window) : window(window), renderTexture(globals::renderResolution), renderSprite(renderTexture.getTexture())
 {
@@ -22,6 +23,8 @@ void Game::run()
 
     window.setFramerateLimit(60);
 
+    sf::Sprite testSprite(TextureManager::getInstance().getTexture("test"));
+
     sf::CircleShape shape(32.f);
     shape.setFillColor(sf::Color(100, 250, 50));
 
@@ -38,7 +41,7 @@ void Game::run()
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) {
             testCoords.x += 100.f * deltaTime;
         }
-        shape.setPosition(testCoords);
+        testSprite.setPosition(testCoords);
         //////
 
         deltaTime = deltaClock.restart().asSeconds();
@@ -46,7 +49,7 @@ void Game::run()
 
         // Render to off-screen render texture
         renderTexture.clear(sf::Color::Black);
-        renderTexture.draw(shape);
+        renderTexture.draw(testSprite);
         renderTexture.display();
 
         // Render to the actual window

@@ -21,7 +21,7 @@ target_include_directories(main
         ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
-target_compile_features(main PRIVATE cxx_std_17)
+target_compile_features(main PRIVATE cxx_std_20)
 target_link_libraries(main PRIVATE SFML::Graphics)
 
 # Create a custom target to copy assets if they change
