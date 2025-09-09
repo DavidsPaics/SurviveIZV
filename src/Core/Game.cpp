@@ -20,14 +20,21 @@ Game::Game(sf::RenderWindow &window) : window(window), renderTexture(globals::re
     // Position in the center of the window
     renderSprite.setPosition(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2));
 }
-
 void Game::run()
 {
     logging::INFO("Game started");
 
     auto testCoords = sf::Vector2f({100,100});
 
-    window.setFramerateLimit(60);
+    sf::Font funFont("assets/fonts/orange-juice.ttf");
+    
+    // FPS Text
+    sf::Text fpsText(funFont, "fps:");
+    fpsText.setCharacterSize(24);
+    fpsText.setFillColor(sf::Color::Green);
+    fpsText.setPosition({50,10});
+
+    // window.setFramerateLimit(60);
 
     sf::Sprite testSprite(TextureManager::getInstance().getTexture("test"));
 
@@ -38,6 +45,8 @@ void Game::run()
 
     sf::Clock deltaClock;
     float deltaTime = 0.0f;
+
+    sf::Clock fpsClock;
 
     while (window.isOpen())
     {
@@ -61,9 +70,23 @@ void Game::run()
         // Render to the actual window
         window.clear(sf::Color::Black);
         window.draw(renderSprite);
+
+        if (debugEnabled)
+        {
+            if (fpsClock.getElapsedTime().asMilliseconds() > 500){
+                std::ostringstream ss;
+                ss << std::fixed << std::setprecision(0) << (1.0f/deltaTime) << " FPS";
+                fpsText.setString(ss.str());
+                fpsClock.restart();
+            }
+            window.draw(fpsText);
+        }
+
+
         window.display();
     }
 }
+
 
 
 void Game::handleEvents()
@@ -74,5 +97,6 @@ void Game::handleEvents()
         {
             window.close();
         }
+
     }
 }

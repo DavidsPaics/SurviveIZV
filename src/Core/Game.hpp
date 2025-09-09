@@ -15,4 +15,5 @@ private:
     sf::Sprite renderSprite;
 
     sf::Clock clock;
+    bool debugEnabled = true;
 };
