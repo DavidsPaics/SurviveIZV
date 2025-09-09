@@ -26,10 +26,11 @@ void Game::run()
 
     auto testCoords = sf::Vector2f({100,100});
 
-    sf::Font funFont("assets/fonts/orange-juice.ttf");
+    sf::Font funFont("assets/fonts/COMIC.ttf");
     
     // FPS Text
     sf::Text fpsText(funFont, "fps:");
+    fpsText.setStyle(sf::Text::Bold);
     fpsText.setCharacterSize(24);
     fpsText.setFillColor(sf::Color::Green);
     fpsText.setPosition({50,10});
@@ -96,6 +97,14 @@ void Game::handleEvents()
         if (event->is<sf::Event::Closed>())
         {
             window.close();
+        }
+
+        else if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>())
+        {
+            if (keyPressed->code == sf::Keyboard::Key::F3)
+            {
+                debugEnabled = !debugEnabled;
+            }
         }
 
     }
