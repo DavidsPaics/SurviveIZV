@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 
 namespace globals {
-    inline constexpr auto renderResolution = sf::Vector2u({640,360});
+    inline constexpr auto renderResolution = sf::Vector2u({320,180});
 
-    inline constexpr auto tileSize = 32;
+    inline constexpr auto tileSize = 16;
 }

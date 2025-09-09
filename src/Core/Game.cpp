@@ -12,7 +12,13 @@ Game::Game(sf::RenderWindow &window) : window(window), renderTexture(globals::re
     // Calculate scale factor to fit the window
     float scaleX = static_cast<float>(window.getSize().x) / renderTexture.getSize().x;
     float scaleY = static_cast<float>(window.getSize().y) / renderTexture.getSize().y;
-    renderSprite.setScale({scaleX, scaleY});
+    renderSprite.setScale({std::min(scaleX, scaleY), std::min(scaleX, scaleY)});
+
+    sf::FloatRect bounds = renderSprite.getLocalBounds();
+    renderSprite.setOrigin({bounds.size.x / 2.f, bounds.size.y / 2.f});
+
+    // Position in the center of the window
+    renderSprite.setPosition(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2));
 }
 
 void Game::run()
@@ -48,7 +54,7 @@ void Game::run()
         // world.update(deltaTime);
 
         // Render to off-screen render texture
-        renderTexture.clear(sf::Color::Black);
+        renderTexture.clear(sf::Color::Blue);
         renderTexture.draw(testSprite);
         renderTexture.display();
 
