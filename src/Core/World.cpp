@@ -5,17 +5,22 @@
 
 //TODO: This is a placeholder, FIX world.hpp first
 
-World::World() : myplayer()
+World::World() : player()
 {
-
+    
 }
 
 void World::update(float deltaTime)
 {
-    myplayer.update(deltaTime);
+    player.update(deltaTime);
 }
 
 void World::render(sf::RenderTarget& target)
 {
-    target.draw(*myplayer.getSprite());
+    target.draw(player.getSprite());
+}
+
+void World::handleEvent(sf::Event& event)
+{
+    player.handleEvent(event);
 }

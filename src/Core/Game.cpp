@@ -103,6 +103,10 @@ void Game::handleEvents()
             window.close();
         }
 
+        if (event){
+            // world.handleEvent((*event));
+        }
+
         //shit
         // if (event->is<sf::Event::Resized>())
         // {

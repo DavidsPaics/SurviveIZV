@@ -12,6 +12,11 @@ public:
     void update(float deltaTime);
     void render(sf::RenderTarget& target);
 
+    void handleEvent(sf::Event& event);
+
 private:
-    Player myplayer;
+    Player player;
+
+    int mapWidth, mapHeight;
+    std::vector<char> mapData;
 };
