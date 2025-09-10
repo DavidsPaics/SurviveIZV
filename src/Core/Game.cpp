@@ -62,7 +62,7 @@ void Game::run()
 }
 
 
-//FIXME: THIS IS COMPLATELY BROKEN, I AM LOSING MY MIND, IT WORKS ON FIRST RUN BUT NOT ON RESIZE
+//FIXME: THIS IS COMPLETELY BROKEN, I AM LOSING MY MIND, IT WORKS ON FIRST RUN BUT NOT ON RESIZE
 void Game::handleResize()
 {
     // Don't reassign the texture here — set it once in the constructor.
