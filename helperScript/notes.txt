@@ -1,0 +1,11 @@
+
+Map file consists of size and space separated RLE encoded tile ID's
+
+There is no need to separate rows.
+
+Example:
+{Width} {Height} {multiplier} {tileID} {multiplier} {tileID} ....
+
+Tiles start from 1 (0 is empty) and continue in order. Look at the tileset
+
+(You can easily encode maps with helperScript/encodeMap.py)

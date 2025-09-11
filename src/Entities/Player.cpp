@@ -48,7 +48,7 @@ void Player::update(float deltaTime)
     position += velocity * deltaTime;
     sprite.setPosition(position);
 
-    logging::DEBUG("Velocity: (" + std::to_string(velocity.x) + ", " + std::to_string(velocity.y) + ")");
+    // logging::DEBUG("Velocity: (" + std::to_string(velocity.x) + ", " + std::to_string(velocity.y) + ")");
 }
 
 sf::Sprite &Player::getSprite()
