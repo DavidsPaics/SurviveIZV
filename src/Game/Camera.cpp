@@ -1,4 +1,5 @@
 #include "Camera.hpp"
+#include "Utils/Math.hpp"
 
 Camera::Camera(float windowWidth, float windowHeight)
     : view(sf::FloatRect({0, 0}, {windowWidth, windowHeight})),
@@ -9,7 +10,7 @@ Camera::Camera(float windowWidth, float windowHeight)
 }
 
 void Camera::setTarget(const sf::Vector2f& target) {
-    targetPos = target;
+    targetPos = tilesToPixelsV2F(target);
 }
 
 void Camera::setZoom(float factor) {

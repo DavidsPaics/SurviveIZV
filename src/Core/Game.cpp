@@ -15,7 +15,7 @@ Game::Game(sf::RenderWindow &window) : window(window), world("test"), renderText
 
 void Game::run()
 {
-    logging::INFO("Game started");
+    logging::INFO("Game started, resolution: ", globals::renderResolution.x, "x", globals::renderResolution.y, " (", globals::scalingFactor, "x scale)");
 
     auto testCoords = sf::Vector2f({100,100});
 

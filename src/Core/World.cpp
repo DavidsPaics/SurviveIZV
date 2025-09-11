@@ -2,6 +2,7 @@
 #include "Core/World.hpp"
 #include "Utils/logging.hpp"
 #include "Entities/Player.hpp"
+#include "Utils/globals.hpp"
 #include <fstream>
 #include <string>
 
@@ -9,6 +10,7 @@
 World::World(const std::string map) : player(), tileSprite(TextureManager::getInstance().getTexture("tileset"))
 {
     tileSprite.setTextureRect(sf::IntRect({0,0},{32,32}));
+    tileSprite.setScale({globals::scalingFactor,globals::scalingFactor});
     loadMap(map);
 
 }
@@ -26,7 +28,7 @@ void World::render(sf::RenderTarget& target)
             char tileType = mapData[y * mapWidth + x];
             if (tileType != 0) { // Assuming 0 is empty space
                 tileSprite.setTextureRect(sf::IntRect({(tileType-1)*32,0},{32,32}));
-                tileSprite.setPosition({(x * 32),(y * 32)});
+                tileSprite.setPosition({(x * 32 * globals::scalingFactor),(y * 32 * globals::scalingFactor)});
                 target.draw(tileSprite);
             }
         }

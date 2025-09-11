@@ -3,18 +3,21 @@
 #include <cmath>
 #include <SFML/Graphics.hpp>
 #include "Utils/TextureManager.hpp"
+#include "Utils/globals.hpp"
+#include "Utils/Math.hpp"
 
 Player::Player() : sprite(TextureManager::getInstance().getTexture("player")) {
     sprite.setTextureRect(sf::IntRect({0, 0}, {32,32}));
+    sprite.setScale({globals::scalingFactor,globals::scalingFactor});
 }
 
 
 void Player::update(float deltaTime)
 {
     // --- Constants you can tweak ---
-    const float acceleration = 2000.f;   // how fast you speed up
-    const float drag = 5.f;              // how fast you slow down (lower = more slippery)
-    const float minVelocity = 1.5f;      // cutoff to stop jitter
+    const float acceleration = 70.f;   // how fast you speed up
+    const float drag = 7.f;              // how fast you slow down (lower = more slippery)
+    const float minVelocity = 0.07f;      // cutoff to stop jitter
     const float maxVelocity = terminalVelocity;
 
     // --- Input Acceleration ---
@@ -30,15 +33,12 @@ void Player::update(float deltaTime)
         velocity += input * acceleration * deltaTime;
     }
 
-    // --- Apply drag (linear friction, not exponential) ---
-    if (velocity.x != 0.f || velocity.y != 0.f) {
-        sf::Vector2f dragForce = -velocity * drag * deltaTime;
-        velocity += dragForce;
+    velocity *= std::exp(-drag * deltaTime);
 
-        // prevent overshooting into negative
-        if (std::abs(velocity.x) < minVelocity) velocity.x = 0.f;
-        if (std::abs(velocity.y) < minVelocity) velocity.y = 0.f;
-    }
+    // Optional: prevent tiny velocities from lingering
+    if (std::abs(velocity.x) < minVelocity) velocity.x = 0.f;
+    if (std::abs(velocity.y) < minVelocity) velocity.y = 0.f;
+
 
     // --- Clamp to terminal velocity ---
     float speed = std::sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
@@ -48,7 +48,7 @@ void Player::update(float deltaTime)
 
     // --- Move ---
     position += velocity * deltaTime;
-    sprite.setPosition(position);
+    sprite.setPosition(tilesToPixelsV2F(position));
 
     // logging::DEBUG("Velocity: (" + std::to_string(velocity.x) + ", " + std::to_string(velocity.y) + ")");
 }
