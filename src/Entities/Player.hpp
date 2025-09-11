@@ -12,6 +12,8 @@ public:
 
     void handleEvent(sf::Event& event);
 
+    sf::Vector2f getPosition() { return position; }
+
 private:
     sf::Sprite sprite;
     sf::Vector2f position {30.f,30.f};

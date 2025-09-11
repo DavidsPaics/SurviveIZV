@@ -2,9 +2,10 @@
 #include "Utils/logging.hpp"
 #include "Game.hpp"
 #include "Utils/globals.hpp"
+#include "Game/Camera.hpp"
 #include "Utils/TextureManager.hpp"
 
-Game::Game(sf::RenderWindow &window) : window(window), renderTexture(globals::renderResolution), renderSprite(renderTexture.getTexture())
+Game::Game(sf::RenderWindow &window) : window(window), world("test"), renderTexture(globals::renderResolution), renderSprite(renderTexture.getTexture())
 {
     // Set up the sprite that will draw the renderTexture onto the window
     renderSprite.setTexture(renderTexture.getTexture());
@@ -28,6 +29,9 @@ void Game::run()
     sf::Clock fpsUpdateClock;
     int frameCount = 0;
 
+    Camera camera(renderTexture.getSize().x, renderTexture.getSize().y);
+
+
     while (window.isOpen())
     {
         deltaTime = deltaClock.restart().asSeconds();
@@ -41,6 +45,10 @@ void Game::run()
             fpsUpdateClock.restart();
         }
         world.update(deltaTime);
+        camera.update(deltaTime);
+        camera.setTarget(world.getPlayer().getPosition());
+
+        renderTexture.setView(camera.getView());
         
         // Render to off-screen render texture
         renderTexture.clear(sf::Color::Blue);

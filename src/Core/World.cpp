@@ -3,12 +3,13 @@
 #include "Utils/logging.hpp"
 #include "Entities/Player.hpp"
 #include <fstream>
+#include <string>
 
 
-World::World() : player(), tileSprite(TextureManager::getInstance().getTexture("tileset"))
+World::World(const std::string map) : player(), tileSprite(TextureManager::getInstance().getTexture("tileset"))
 {
     tileSprite.setTextureRect(sf::IntRect({0,0},{32,32}));
-    loadMap("test");
+    loadMap(map);
 
 }
 

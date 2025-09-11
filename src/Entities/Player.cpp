@@ -4,7 +4,9 @@
 #include <SFML/Graphics.hpp>
 #include "Utils/TextureManager.hpp"
 
-Player::Player() : sprite(TextureManager::getInstance().getTexture("test")) {}
+Player::Player() : sprite(TextureManager::getInstance().getTexture("player")) {
+    sprite.setTextureRect(sf::IntRect({0, 0}, {32,32}));
+}
 
 
 void Player::update(float deltaTime)
