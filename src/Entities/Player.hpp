@@ -13,6 +13,7 @@ public:
     void handleEvent(sf::Event& event);
 
     sf::Vector2f getPosition() { return position; }
+    sf::Vector2f getVelocity() { return velocity; }
 
 private:
     sf::Sprite sprite;
