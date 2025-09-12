@@ -12,7 +12,7 @@ World::World(const std::string map) : player(), tileSprite(TextureManager::getIn
     tileSprite.setScale({globals::scalingFactor,globals::scalingFactor});
     loadMap(map);
 
-    player.setMap(&mapData, {abs(mapWidth), abs(mapHeight)});
+    player.setMap(&mapData, {static_cast<unsigned int>(mapWidth), static_cast<unsigned int>(mapHeight)});
 
 }
 
@@ -28,7 +28,7 @@ void World::render(sf::RenderTarget& target)
         for (int x = 0; x < mapWidth; ++x) {
             Tile tile = tileInfo[mapData[y * mapWidth + x]];
             if (tile.textureIndex != 0) { // Assuming 0 is empty space
-                tileSprite.setTextureRect(sf::IntRect({(tile.textureIndex-1)*32,0},{32,32})); 
+                tileSprite.setTextureRect(sf::IntRect({static_cast<int>((tile.textureIndex-1)*32),0},{32,32})); 
                 tileSprite.setPosition({static_cast<float>(x * 32 * globals::scalingFactor),static_cast<float>(y * 32 * globals::scalingFactor)});
                 target.draw(tileSprite);
             }

@@ -12,7 +12,8 @@ sf::Texture& TextureManager::getTexture(const std::string& name){
     sf::Texture texture;
     if (!texture.loadFromFile("assets/textures/" + name + ".png")) {
         logging::ERROR("Failed to load texture: " + name);
-        throw std::runtime_error("Failed to load texture: " + name);
+        // throw std::runtime_error("Failed to load texture: " + name);
+        return TextureManager::getInstance().getTexture("error");
     }
     textures[name] = std::move(texture);
 
