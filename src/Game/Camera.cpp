@@ -6,7 +6,7 @@ Camera::Camera(float windowWidth, float windowHeight)
     : view(sf::FloatRect({0, 0}, {windowWidth, windowHeight})),
       targetPos(0.f, 0.f),
       smoothPos(0.f, 0.f),
-      smoothing(7.f),
+      smoothing(10.f),
       originalSize(windowWidth, windowHeight)
 {
 }
