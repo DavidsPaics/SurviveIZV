@@ -7,8 +7,8 @@
 #include <string>
 
 struct Tile{
-    unsigned int tileType;
-    unsigned int layer;
+    int textureIndex;
+    int layer;
 };
 
 std::unordered_map<int,Tile> tileInfo = {
@@ -35,9 +35,9 @@ void World::render(sf::RenderTarget& target)
     // Draw the tile map
     for (int y = 0; y < mapHeight; ++y) {
         for (int x = 0; x < mapWidth; ++x) {
-            Tile currentTile = tileInfo[mapData[y * mapWidth + x]];
-            if (currentTile.tileType != 0) { // Assuming 0 is empty space
-                tileSprite.setTextureRect(sf::IntRect({(currentTile.tileType-1)*32,0},{32,32})); 
+            Tile tile = tileInfo[mapData[y * mapWidth + x]];
+            if (tile.textureIndex != 0) { // Assuming 0 is empty space
+                tileSprite.setTextureRect(sf::IntRect({(tile.textureIndex-1)*32,0},{32,32})); 
                 tileSprite.setPosition({static_cast<float>(x * 32 * globals::scalingFactor),static_cast<float>(y * 32 * globals::scalingFactor)});
                 target.draw(tileSprite);
             }
@@ -66,12 +66,17 @@ void World::loadMap(const std::string& name)
 
     int mult, tile;
     int index = 0; // position in mapData
-
     while (file >> mult >> tile && index < mapWidth * mapHeight) {
         for (int n = 0; n < mult && index < mapWidth * mapHeight; n++) {
             mapData[index++] = tile;
         }
     }
+    
+    int spawnIndex = std::ranges::find(mapData,4)-mapData.begin();
+    int spawnPosY=spawnIndex/mapWidth;
+    int spawnPosX= spawnIndex % (spawnPosY*mapWidth);
+    player.setPosition({static_cast<float>(spawnPosX),static_cast<float>(spawnPosY)});
+
 
     logging::DEBUG("Loaded map " + name);
 }

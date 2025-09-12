@@ -14,11 +14,10 @@ public:
 
     sf::Vector2f getPosition() { return position; }
     sf::Vector2f getVelocity() { return velocity; }
-
+    void setPosition(const sf::Vector2f& pos) {position = pos;}
 private:
     sf::Sprite sprite;
-    sf::Vector2f position {3.f,3.f};
+    sf::Vector2f position {0.f,0.f};
     sf::Vector2f velocity {0.f,0.f};
-
     float terminalVelocity = 10.f;
 };
