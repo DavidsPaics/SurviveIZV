@@ -7,8 +7,6 @@
 
 namespace logging
 {
-    // This is github copilot code couse cpp templates are hell
-
     namespace detail
     {
         inline void printTimestamp()

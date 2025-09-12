@@ -54,7 +54,7 @@ void World::handleEvent(sf::Event& event)
 
 void World::loadMap(const std::string& name)
 {
-    std::ifstream file("assets/maps/" + name + ".izv-map");
+    std::ifstream file("assets/maps/" + name + ".game-map");
 
     if (!file.is_open()) {
         logging::ERROR("Failed to open map file: " + name);
