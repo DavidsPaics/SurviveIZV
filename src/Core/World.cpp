@@ -6,7 +6,17 @@
 #include <fstream>
 #include <string>
 
+struct Tile{
+    unsigned int tileType;
+    unsigned int layer;
+};
 
+std::unordered_map<int,Tile> tileInfo = {
+    {1,{1,0}}, //debug tile
+    {2,{2,0}}, //stone tile
+    {3,{3,1}}, //brick tile
+    {4,{2,0}} //spawnpoint tile
+}; 
 World::World(const std::string map) : player(), tileSprite(TextureManager::getInstance().getTexture("tileset"))
 {
     tileSprite.setTextureRect(sf::IntRect({0,0},{32,32}));
@@ -25,9 +35,9 @@ void World::render(sf::RenderTarget& target)
     // Draw the tile map
     for (int y = 0; y < mapHeight; ++y) {
         for (int x = 0; x < mapWidth; ++x) {
-            char tileType = mapData[y * mapWidth + x];
-            if (tileType != 0) { // Assuming 0 is empty space
-                tileSprite.setTextureRect(sf::IntRect({(tileType-1)*32,0},{32,32}));
+            Tile currentTile = tileInfo[mapData[y * mapWidth + x]];
+            if (currentTile.tileType != 0) { // Assuming 0 is empty space
+                tileSprite.setTextureRect(sf::IntRect({(currentTile.tileType-1)*32,0},{32,32})); 
                 tileSprite.setPosition({(x * 32 * globals::scalingFactor),(y * 32 * globals::scalingFactor)});
                 target.draw(tileSprite);
             }

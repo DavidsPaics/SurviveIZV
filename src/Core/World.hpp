@@ -22,7 +22,7 @@ private:
     Player player;
 
     int mapWidth, mapHeight;
-    std::vector<int> mapData;
+    std::vector<int> mapData; //basically in.txt
 
     //rendering
     sf::Sprite tileSprite;
