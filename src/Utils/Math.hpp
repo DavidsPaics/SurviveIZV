@@ -22,21 +22,7 @@ bool rectPointCollision(const sf::FloatRect& rect, const sf::Vector2f& point) {
 // Rectangle vs Rectangle (AABB)
 // --------------------------------
 bool rectRectCollision(const sf::FloatRect& a, const sf::FloatRect& b) {
-    return a.intersects(b);
-}
-
-// --------------------------------
-// Rectangle vs Circle
-// --------------------------------
-bool rectCircleCollision(const sf::FloatRect& rect, const sf::Vector2f& circleCenter, float radius) {
-    // Find closest point on rect to circle center
-    float closestX = std::clamp(circleCenter.x, rect.left, rect.left + rect.width);
-    float closestY = std::clamp(circleCenter.y, rect.top, rect.top + rect.height);
-
-    float dx = circleCenter.x - closestX;
-    float dy = circleCenter.y - closestY;
-
-    return (dx * dx + dy * dy) <= (radius * radius);
+    return a.findIntersection(b).has_value();
 }
 
 // --------------------------------
