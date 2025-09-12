@@ -16,7 +16,7 @@ public:
 
     void loadMap(const std::string& filename);
 
-    Player& getPlayer() { return player; }
+    Player& getPlayer() { return player; };
 
 private:
     Player player;

@@ -1,5 +1,6 @@
 #include "Camera.hpp"
 #include "Utils/Math.hpp"
+#include <cmath>
 
 Camera::Camera(float windowWidth, float windowHeight)
     : view(sf::FloatRect({0, 0}, {windowWidth, windowHeight})),
@@ -23,7 +24,12 @@ void Camera::setZoom(float zoom) {
 
 void Camera::update(float deltaTime) {
     smoothPos += (targetPos - smoothPos) * (smoothing * deltaTime);
-    view.setCenter(smoothPos);
+    
+    sf::Vector2f rounded(
+        std::round(smoothPos.x),
+        std::round(smoothPos.y)
+    );
+    view.setCenter(rounded);
 }
 
 const sf::View& Camera::getView() const {

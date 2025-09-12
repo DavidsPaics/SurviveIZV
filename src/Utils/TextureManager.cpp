@@ -16,5 +16,8 @@ sf::Texture& TextureManager::getTexture(const std::string& name){
     }
     textures[name] = std::move(texture);
 
+    textures[name].setSmooth(false); // pixel art, no smoothing
+    textures[name].setRepeated(false); // no repeating by default
+
     return textures[name];
 }

@@ -47,9 +47,11 @@ void Game::run()
         world.update(deltaTime);
         camera.update(deltaTime);
         camera.setTarget(world.getPlayer().getPosition());
+
+        //FIXME: ROUND TO PIXEL, TO PREVET WHITE LINES
         //run zoom 
-        float clampedMag = std::min(world.getPlayer().getVelocity().length(), 5.f);
-        camera.setZoom(1.f + clampedMag * 0.05f / 5.f);
+        // float clampedMag = std::min(world.getPlayer().getVelocity().length(), 5.f);
+        // camera.setZoom(1.f + clampedMag * 0.05f / 5.f);
 
 
         renderTexture.setView(camera.getView());

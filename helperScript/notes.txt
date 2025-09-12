@@ -7,6 +7,5 @@ Example:
 {Width} {Height} {multiplier} {tileID} {multiplier} {tileID} ....
 
 Tiles start from 1 (0 is empty) and continue in order. Look at the tileset
-Making a tile negative will set that as the players spawnpoint
 
 (You can easily encode maps with helperScript/encodeMap.py)
