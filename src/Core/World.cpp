@@ -28,7 +28,7 @@ void World::render(sf::RenderTarget& target)
             char tileType = mapData[y * mapWidth + x];
             if (tileType != 0) { // Assuming 0 is empty space
                 tileSprite.setTextureRect(sf::IntRect({(tileType-1)*32,0},{32,32}));
-                tileSprite.setPosition({(x * 32 * globals::scalingFactor),(y * 32 * globals::scalingFactor)});
+                tileSprite.setPosition({static_cast<float>(x * 32 * globals::scalingFactor),static_cast<float>(y * 32 * globals::scalingFactor)});
                 target.draw(tileSprite);
             }
         }
