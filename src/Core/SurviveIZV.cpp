@@ -9,6 +9,8 @@ int main()
     sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
 
     auto window = sf::RenderWindow(sf::VideoMode(desktopMode), "Survive IZV");
+
+    window.setVerticalSyncEnabled(true);
     
     Game game(window);
     game.run();

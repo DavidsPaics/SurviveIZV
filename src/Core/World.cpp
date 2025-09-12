@@ -6,22 +6,13 @@
 #include <fstream>
 #include <string>
 
-struct Tile{
-    int textureIndex;
-    int layer;
-};
-
-std::unordered_map<int,Tile> tileInfo = {
-    {1,{1,0}}, //debug tile
-    {2,{2,0}}, //stone tile
-    {3,{3,1}}, //brick tile
-    {4,{2,0}} //spawnpoint tile
-}; 
 World::World(const std::string map) : player(), tileSprite(TextureManager::getInstance().getTexture("tileset"))
 {
     tileSprite.setTextureRect(sf::IntRect({0,0},{32,32}));
     tileSprite.setScale({globals::scalingFactor,globals::scalingFactor});
     loadMap(map);
+
+    player.setMap(&mapData, {abs(mapWidth), abs(mapHeight)});
 
 }
 
@@ -72,7 +63,7 @@ void World::loadMap(const std::string& name)
         }
     }
     
-    int spawnIndex = std::ranges::find(mapData,4)-mapData.begin();
+    int spawnIndex = std::find(mapData.begin(), mapData.end(), 4)-mapData.begin();
     int spawnPosY=spawnIndex/mapWidth;
     int spawnPosX= spawnIndex % (spawnPosY*mapWidth);
     player.setPosition({static_cast<float>(spawnPosX),static_cast<float>(spawnPosY)});

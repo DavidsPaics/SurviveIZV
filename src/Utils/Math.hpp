@@ -43,3 +43,17 @@ inline bool circleCircleCollision(const sf::Vector2f& c1, float r1, const sf::Ve
     float radiusSum = r1 + r2;
     return (dx * dx + dy * dy) <= (radiusSum * radiusSum);
 }
+// --------------------------------
+// Circle vs Rectangle (AABB)
+// --------------------------------
+inline bool circleRectCollision(const sf::FloatRect& rect, const sf::Vector2f& circleCenter, float radius) {
+    // Clamp circle center to rectangle bounds
+    float closestX = std::clamp(circleCenter.x, rect.position.x, rect.position.x + rect.size.x);
+    float closestY = std::clamp(circleCenter.y, rect.position.y, rect.position.y + rect.size.y);
+
+    // Distance from circle center to closest point
+    float dx = circleCenter.x - closestX;
+    float dy = circleCenter.y - closestY;
+
+    return (dx * dx + dy * dy) <= (radius * radius);
+}

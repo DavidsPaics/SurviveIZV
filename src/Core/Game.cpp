@@ -5,7 +5,7 @@
 #include "Game/Camera.hpp"
 #include "Utils/TextureManager.hpp"
 
-Game::Game(sf::RenderWindow &window) : window(window), world("test"), renderTexture(globals::renderResolution), renderSprite(renderTexture.getTexture())
+Game::Game(sf::RenderWindow &window) : window(window), world("collisionTest"), renderTexture(globals::renderResolution), renderSprite(renderTexture.getTexture())
 {
     // Set up the sprite that will draw the renderTexture onto the window
     renderSprite.setTexture(renderTexture.getTexture());
