@@ -24,7 +24,7 @@ def main():
     base_path = "helperScript"
 
     in_file = os.path.join(base_path, "in.txt")
-    out_file = os.path.join(base_path, "out.izv-map")
+    out_file = os.path.join(base_path, "out.game-map")
     notes_file = os.path.join(base_path, "notes.txt")
 
     # Read input
