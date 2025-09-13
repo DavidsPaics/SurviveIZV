@@ -58,6 +58,15 @@ void World::loadMap(const std::string& name)
     int mult, tile;
     int index = 0; // position in mapData
     while (file >> mult >> tile && index < mapWidth * mapHeight) {
+        if (tileInfo.find(tile) == tileInfo.end()){
+            if (tile>=32 && tile <=126){
+                //The tile id is a valid ascii character, this can show instantly if documentation is being parsed as data
+                logging::ERROR("Tile",tile,"(",static_cast<char>(tile),") doesnt exist, please check map file.");
+            } else {
+                logging::ERROR("Tile",tile,"doesnt exist, please check map file.");
+            }
+            tile = -1;
+        }
         for (int n = 0; n < mult && index < mapWidth * mapHeight; n++) {
             mapData[index++] = tile;
         }
