@@ -17,7 +17,4 @@ private:
     sf::Sprite renderSprite;
 
     World world;
-
-    sf::Clock clock;
-    bool debugEnabled = true;
 };

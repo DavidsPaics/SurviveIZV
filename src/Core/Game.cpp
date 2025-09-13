@@ -17,16 +17,9 @@ void Game::run()
 {
     logging::INFO("Game started, resolution: ", globals::renderResolution.x, "x", globals::renderResolution.y, " (", globals::scalingFactor, "x scale)");
 
-    auto testCoords = sf::Vector2f({100,100});
-
-    sf::Font funFont("assets/fonts/COMIC.ttf");
-
-    clock.restart();
-
-    sf::Clock deltaClock;
+    sf::Clock deltaClock, fpsUpdateClock;
     float deltaTime = 0.0f;
 
-    sf::Clock fpsUpdateClock;
     int frameCount = 0;
 
     Camera camera(renderTexture.getSize().x, renderTexture.getSize().y);
@@ -35,8 +28,6 @@ void Game::run()
     while (window.isOpen())
     {
         deltaTime = deltaClock.restart().asSeconds();
-
-        handleEvents();
         
         frameCount++;
         if (fpsUpdateClock.getElapsedTime().asSeconds() > 1) {
@@ -44,31 +35,26 @@ void Game::run()
             frameCount = 0;
             fpsUpdateClock.restart();
         }
+        
+
+        handleEvents();
         world.update(deltaTime);
-        camera.update(deltaTime);
+
         camera.setTarget(world.getPlayer().getPosition());
-
-        //FIXME: ROUND TO PIXEL, TO PREVET WHITE LINES
-        //run zoom 
-        // float clampedMag = std::min(world.getPlayer().getVelocity().length(), 5.f);
-        // camera.setZoom(1.f + clampedMag * 0.05f / 5.f);
-
+        camera.update(deltaTime);
 
         renderTexture.setView(camera.getView());
         
         // Render to off-screen render texture
-        renderTexture.clear(sf::Color::Blue);
-
+        renderTexture.clear(sf::Color::Black);
 
         world.render(renderTexture);
-
 
         renderTexture.display();
 
         ////////////////////////////////////////////
 
         // Render to the actual window
-        // window.setView(window.getDefaultView()); //FIXME: remove for camera,hack to resize
         window.clear(sf::Color::Black);
         window.draw(renderSprite);
         window.display();
@@ -116,15 +102,5 @@ void Game::handleEvents()
         {
             window.close();
         }
-
-        if (event){
-            // world.handleEvent((*event));
-        }
-
-        //shit
-        // if (event->is<sf::Event::Resized>())
-        // {
-        //     handleResize();
-        // }
     }
 }
