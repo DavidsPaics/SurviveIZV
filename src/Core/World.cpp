@@ -6,16 +6,14 @@
 #include "Game/Camera.hpp"
 #include "Utils/Math.hpp"
 #include <fstream>
+#include <set>
 #include <string>
 
-World::World(const std::string map) : player(), tileSprite(TextureManager::getInstance().getTexture("tileset"))
+World::World(const std::string map) : player(*this), tileSprite(TextureManager::getInstance().getTexture("tileset"))
 {
     tileSprite.setTextureRect(sf::IntRect({0,0},{32,32}));
     tileSprite.setScale({globals::scalingFactor,globals::scalingFactor});
     loadMap(map);
-
-    player.setMap(&mapData, {static_cast<unsigned int>(mapWidth), static_cast<unsigned int>(mapHeight)});
-
 }
 
 void World::update(float deltaTime)
@@ -39,13 +37,13 @@ void World::render(sf::RenderTarget& target, Camera& camera)
     if (bottomRight.x>=mapWidth)
         bottomRight.x = mapWidth-1;
 
-    logging::DEBUG(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y);
+    // logging::DEBUG(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y);
 
     // Draw the tile map
     for (int y = static_cast<int>(topLeft.y); y < static_cast<int>(bottomRight.y+1); ++y) {
         for (int x = static_cast<int>(topLeft.x); x < static_cast<int>(bottomRight.x+1); ++x) {
             Tile tile = tileInfo[mapData[y * mapWidth + x]];
-            if (tile.textureIndex != 0) { // Assuming 0 is empty space
+            if (tile.textureIndex != 0) { // 0 is empty space
                 tileSprite.setTextureRect(sf::IntRect({static_cast<int>((tile.textureIndex-1)*32),0},{32,32})); 
                 tileSprite.setPosition({static_cast<float>(x * 32 * globals::scalingFactor),static_cast<float>(y * 32 * globals::scalingFactor)});
                 target.draw(tileSprite);
@@ -70,31 +68,33 @@ void World::loadMap(const std::string& name)
         return;
     }
 
+    float spawnPosX, spawnPosY;
+    file >> spawnPosX >> spawnPosY;
+
+    player.setPosition({spawnPosX, spawnPosY});
+
+
     file >> mapWidth >> mapHeight;
     mapData.resize(mapWidth * mapHeight);
 
+    std::set<int> tileIds;
+
     int mult, tile;
     int index = 0; // position in mapData
-    while (file >> mult >> tile && index < mapWidth * mapHeight) {
-        if (tileInfo.find(tile) == tileInfo.end()){
-            if (tile>=32 && tile <=126){
-                //The tile id is a valid ascii character, this can show instantly if documentation is being parsed as data
-                logging::ERROR("Tile",tile,"(",static_cast<char>(tile),") doesnt exist, please check map file.");
-            } else {
-                logging::ERROR("Tile",tile,"doesnt exist, please check map file.");
-            }
-            tile = -1;
-        }
+    while (index < mapWidth * mapHeight) {
+        file >> mult >> tile;
+        tileIds.insert(tile);
         for (int n = 0; n < mult && index < mapWidth * mapHeight; n++) {
             mapData[index++] = tile;
         }
     }
-    
-    int spawnIndex = std::find(mapData.begin(), mapData.end(), 4)-mapData.begin();
-    int spawnPosY=spawnIndex/mapWidth;
-    int spawnPosX= spawnIndex % (spawnPosY*mapWidth);
-    player.setPosition({static_cast<float>(spawnPosX),static_cast<float>(spawnPosY)});
 
+    tileInfo.clear();
+    int id,flags,layer;
+    for(int i=0;i<tileIds.size();i++){
+        file >> id >> flags >> layer;
+        tileInfo[id] = {id,flags,layer};
+    }
 
-    logging::DEBUG("Loaded map " + name);
+    logging::INFO("Loaded map:", name);
 }

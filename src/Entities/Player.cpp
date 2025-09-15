@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "Utils/TextureManager.hpp"
 #include "Utils/globals.hpp"
-Player::Player() : Entity() {
+Player::Player(World& worldRef) : Entity(worldRef) {
     Entity::sprite.setTexture(TextureManager::getInstance().getTexture("player"));
 }
 

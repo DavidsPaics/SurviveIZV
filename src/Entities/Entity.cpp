@@ -5,9 +5,10 @@
 #include <SFML/Graphics.hpp>
 #include "Utils/TextureManager.hpp"
 #include "Utils/globals.hpp"
+#include "Core/Game.hpp"
 #include "Utils/Math.hpp"
 
-Entity::Entity() : sprite(TextureManager::getInstance().getTexture("error")) {
+Entity::Entity(World& worldRef) : sprite(TextureManager::getInstance().getTexture("error")), world(worldRef) {
     sprite.setTextureRect(sf::IntRect({0, 0}, {32,32}));
     sprite.setScale({globals::scalingFactor,globals::scalingFactor});
 }
@@ -48,10 +49,9 @@ void Entity::update(float deltaTime)
         velocity = (velocity / speed) * maxVelocity;
     }
 
-    if (mapPointer != nullptr){
-        resolveCollisions({velocity.x * deltaTime,0});
-        resolveCollisions({0,velocity.y * deltaTime});
-    }
+    resolveCollisions({velocity.x * deltaTime,0});
+    resolveCollisions({0,velocity.y * deltaTime});
+    
 
     // logging::DEBUG("Velocity: (" + std::to_string(velocity.x) + ", " + std::to_string(velocity.y) + ")");
     // logging::DEBUG("Position: (" + std::to_string(position.x) + ", " + std::to_string(position.y) + ")");
@@ -83,8 +83,8 @@ void Entity::resolveCollisions(const sf::Vector2f& delta)
 
     for (int y = minY; y <= maxY; y++) {
         for (int x = minX; x <= maxX; x++) {
-            int tileIndex = y * mapSize.x + x;
-            if (tileInfo[(*mapPointer)[tileIndex]].layer == 1) { // collidable tile
+            int tileIndex = y * world.getMapSize().x + x;
+            if (world.getMapTileInfo()[(world.getMap())[tileIndex]].layer == 1) { // collidable tile
                 sf::FloatRect tileRect({float(x), float(y)}, {1.f, 1.f});
 
                 // Check intersection along X axis
@@ -115,8 +115,8 @@ void Entity::resolveCollisions(const sf::Vector2f& delta)
 
     for (int y = minY; y <= maxY; y++) {
         for (int x = minX; x <= maxX; x++) {
-            int tileIndex = y * mapSize.x + x;
-            if (tileInfo[(*mapPointer)[tileIndex]].layer == 1) { // collidable tile
+            int tileIndex = y * world.getMapSize().x + x;
+            if (world.getMapTileInfo()[(world.getMap())[tileIndex]].layer == 1) { // collidable tile
                 sf::FloatRect tileRect({float(x), float(y)}, {1.f, 1.f});
 
                 // Check intersection along Y axis

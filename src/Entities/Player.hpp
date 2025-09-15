@@ -3,9 +3,11 @@
 #include <SFML/Graphics.hpp>
 #include "Entities/Entity.hpp"
 
+class World;
+
 class Player : public Entity {
 public:
-    Player();
+    Player(World& worldRef);
 
     void handleEvent(sf::Event& event) {};
 

@@ -21,7 +21,7 @@ def rle_encode(data):
 
 
 def main():
-    base_path = "helperScript"
+    base_path = "helperScript/RLEEncodeMap"
 
     in_file = os.path.join(base_path, "in.txt")
     out_file = os.path.join(base_path, "out.game-map")
@@ -32,8 +32,9 @@ def main():
         tokens = f.read().split()
 
     # First two tokens are width and height
-    width, height = map(int, tokens[:2])
-    tiles = list(map(int, tokens[2:]))
+    spawnx, spawny = map(int, tokens[:2])
+    width, height = map(int, tokens[2:4])
+    tiles = list(map(int, tokens[4:]))
 
     if len(tiles) != width * height:
         print(f"Warning: expected {width*height} tiles, got {len(tiles)}")
@@ -49,11 +50,20 @@ def main():
 
     # Write output
     with open(out_file, "w") as f:
-        f.write(f"{width} {height} ")
+        # First line: width height + encoded map
+        f.write(f"{width} {height} {spawnx} {spawny} ")
         f.write(" ".join(f"{count} {tile}" for count, tile in encoded))
-        f.write("\n\n10000 0 <- prevent interpreting notes as data\n")
+        f.write("\n\n")  # empty line after map data
+
+        # Append unique tile lines (ignore ID 0)
+        unique_ids = sorted(set(tiles))
+        for tid in unique_ids:
+            if tid != 0:
+                f.write(f"{tid} 0 0\n")
+
+        # Optional notes at the very end
         if notes:
-            f.write(notes + "\n")
+            f.write("\n" + notes + "\n")
 
 
 if __name__ == "__main__":

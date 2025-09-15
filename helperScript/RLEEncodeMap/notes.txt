@@ -1,6 +1,8 @@
 
 Map file consists of size and space separated RLE encoded tile ID's
 
+After which is a list of all tiles and their flags and layer IDs
+
 There is no need to separate rows.
 
 Example:
