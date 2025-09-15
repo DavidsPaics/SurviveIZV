@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include "Entities/Player.hpp"
+#include "Game/Camera.hpp"
 
 
 class World {
@@ -10,7 +11,7 @@ public:
     World(const std::string map);
 
     void update(float deltaTime);
-    void render(sf::RenderTarget& target);
+    void render(sf::RenderTarget& target, Camera& camera);
 
     void handleEvent(sf::Event& event);
 

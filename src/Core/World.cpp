@@ -3,6 +3,8 @@
 #include "Utils/logging.hpp"
 #include "Entities/Player.hpp"
 #include "Utils/globals.hpp"
+#include "Game/Camera.hpp"
+#include "Utils/Math.hpp"
 #include <fstream>
 #include <string>
 
@@ -21,11 +23,27 @@ void World::update(float deltaTime)
     player.update(deltaTime);
 }
 
-void World::render(sf::RenderTarget& target)
+void World::render(sf::RenderTarget& target, Camera& camera)
 {
+    auto center = camera.getView().getCenter();
+    auto size = camera.getView().getSize();
+    sf::Vector2f topLeft = {pixelsToTiles(center.x-size.x/2.f), pixelsToTiles(center.y-size.y/2.f)};
+    sf::Vector2f bottomRight = topLeft + pixelsToTilesV2F(size);
+    if (topLeft.x <0)
+        topLeft.x=0;
+    if (topLeft.y<0)
+        topLeft.y=0;
+
+    if (bottomRight.y>=mapHeight)
+        bottomRight.y = mapHeight-1;
+    if (bottomRight.x>=mapWidth)
+        bottomRight.x = mapWidth-1;
+
+    logging::DEBUG(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y);
+
     // Draw the tile map
-    for (int y = 0; y < mapHeight; ++y) {
-        for (int x = 0; x < mapWidth; ++x) {
+    for (int y = static_cast<int>(topLeft.y); y < static_cast<int>(bottomRight.y+1); ++y) {
+        for (int x = static_cast<int>(topLeft.x); x < static_cast<int>(bottomRight.x+1); ++x) {
             Tile tile = tileInfo[mapData[y * mapWidth + x]];
             if (tile.textureIndex != 0) { // Assuming 0 is empty space
                 tileSprite.setTextureRect(sf::IntRect({static_cast<int>((tile.textureIndex-1)*32),0},{32,32})); 

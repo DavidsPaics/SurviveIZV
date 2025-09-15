@@ -10,6 +10,13 @@ inline sf::Vector2f tilesToPixelsV2F(sf::Vector2f tiles) {
     return {tilesToPixels(tiles.x), tilesToPixels(tiles.y)};
 }
 
+inline float pixelsToTiles(float pixels) {
+    return (pixels / globals::scaledTileSize);
+}
+inline sf::Vector2f pixelsToTilesV2F(sf::Vector2f pixels) {
+    return {pixelsToTiles(pixels.x), pixelsToTiles(pixels.y)};
+}
+
 
 // --------------------------------
 // Point inside Rectangle
@@ -43,6 +50,7 @@ inline bool circleCircleCollision(const sf::Vector2f& c1, float r1, const sf::Ve
     float radiusSum = r1 + r2;
     return (dx * dx + dy * dy) <= (radiusSum * radiusSum);
 }
+
 // --------------------------------
 // Circle vs Rectangle (AABB)
 // --------------------------------
@@ -57,3 +65,4 @@ inline bool circleRectCollision(const sf::FloatRect& rect, const sf::Vector2f& c
 
     return (dx * dx + dy * dy) <= (radius * radius);
 }
+

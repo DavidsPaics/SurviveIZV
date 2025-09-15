@@ -48,7 +48,7 @@ void Game::run()
         // Render to off-screen render texture
         renderTexture.clear(sf::Color::Black);
 
-        world.render(renderTexture);
+        world.render(renderTexture, camera);
 
         renderTexture.display();
 
