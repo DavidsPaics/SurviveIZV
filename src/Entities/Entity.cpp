@@ -7,6 +7,7 @@
 #include "Utils/globals.hpp"
 #include "Core/Game.hpp"
 #include "Utils/Math.hpp"
+#include "Core/World.hpp"
 
 Entity::Entity(World& worldRef) : sprite(TextureManager::getInstance().getTexture("error")), world(worldRef) {
     sprite.setTextureRect(sf::IntRect({0, 0}, {32,32}));
@@ -17,12 +18,6 @@ Entity::Entity(World& worldRef) : sprite(TextureManager::getInstance().getTextur
 void Entity::update(float deltaTime)
 {
     //Taken from player.cpp
-
-    // --- Constants you can tweak ---
-    const float acceleration = 35.f;   // how fast it speeds up
-    const float drag = 7.f;              // how fast it slows down (lower = more slippery)
-    const float minVelocity = 0.035f;      // cutoff to stop jitter
-    const float maxVelocity = terminalVelocity;
 
     // --- Input Acceleration ---
     // movementDirection = {0,0};

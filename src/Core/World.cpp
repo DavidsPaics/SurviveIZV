@@ -2,6 +2,7 @@
 #include "Core/World.hpp"
 #include "Utils/logging.hpp"
 #include "Entities/Player.hpp"
+#include "Entities/InfectedPelmenis.hpp"
 #include "Utils/globals.hpp"
 #include "Game/Camera.hpp"
 #include "Utils/Math.hpp"
@@ -9,7 +10,7 @@
 #include <set>
 #include <string>
 
-World::World(const std::string map) : player(*this), tileSprite(TextureManager::getInstance().getTexture("tileset"))
+World::World(const std::string map) : player(*this), tileSprite(TextureManager::getInstance().getTexture("tilesets/"+levelName))
 {
     tileSprite.setTextureRect(sf::IntRect({0,0},{32,32}));
     tileSprite.setScale({globals::scalingFactor,globals::scalingFactor});
@@ -19,6 +20,8 @@ World::World(const std::string map) : player(*this), tileSprite(TextureManager::
 void World::update(float deltaTime)
 {
     player.update(deltaTime);
+    for(auto& entity : entities)
+        entity->update(deltaTime);
 }
 
 void World::render(sf::RenderTarget& target, Camera& camera)
@@ -52,6 +55,9 @@ void World::render(sf::RenderTarget& target, Camera& camera)
     }
 
     target.draw(player.getSprite());
+
+    for (auto& entity : entities)
+        target.draw(entity->getSprite());
 }
 
 void World::handleEvent(sf::Event& event)
@@ -68,14 +74,21 @@ void World::loadMap(const std::string& name)
         return;
     }
 
+    auto pelmenis = new InfectedPelmenis(*this);
+    pelmenis->setPosition({10,5});
+    entities.push_back(std::unique_ptr<InfectedPelmenis>(pelmenis));
+
+    levelName = name;
+
+    tileSprite.setTexture(TextureManager::getInstance().getTexture("tilesets/"+levelName));
+
+    file >> mapWidth >> mapHeight;
+    mapData.resize(mapWidth * mapHeight);
+
     float spawnPosX, spawnPosY;
     file >> spawnPosX >> spawnPosY;
 
     player.setPosition({spawnPosX, spawnPosY});
-
-
-    file >> mapWidth >> mapHeight;
-    mapData.resize(mapWidth * mapHeight);
 
     std::set<int> tileIds;
 

@@ -4,7 +4,7 @@
 #include "Utils/TextureManager.hpp"
 #include "Utils/globals.hpp"
 Player::Player(World& worldRef) : Entity(worldRef) {
-    Entity::sprite.setTexture(TextureManager::getInstance().getTexture("player"));
+    Entity::sprite.setTexture(TextureManager::getInstance().getTexture("entities/player"));
 }
 
 

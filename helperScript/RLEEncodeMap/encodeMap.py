@@ -32,8 +32,8 @@ def main():
         tokens = f.read().split()
 
     # First two tokens are width and height
-    spawnx, spawny = map(int, tokens[:2])
-    width, height = map(int, tokens[2:4])
+    width, height = map(int, tokens[:2])
+    spawnx, spawny = map(int, tokens[2:4])
     tiles = list(map(int, tokens[4:]))
 
     if len(tiles) != width * height:

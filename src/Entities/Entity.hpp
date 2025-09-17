@@ -29,4 +29,10 @@ protected:
     void resolveCollisions(const sf::Vector2f& delta);
 
     float terminalVelocity = 5.f;
+
+    // --- Constants you can tweak ---
+    float acceleration = 35.f;   // how fast it speeds up
+    float drag = 7.f;              // how fast it slows down (lower = more slippery)
+    float minVelocity = 0.035f;      // cutoff to stop jitter
+    float maxVelocity = terminalVelocity;
 };
