@@ -3,8 +3,6 @@
 
 InfectedPelmenis::InfectedPelmenis(World& worldRef) : Entity(worldRef){
     sprite.setTexture(TextureManager::getInstance().getTexture("entities/pelmenis"));
-    terminalVelocity = 70.f;
-    acceleration = 1000.f;
 
     lungeDuration.stop();
 }

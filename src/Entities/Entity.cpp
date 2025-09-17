@@ -39,11 +39,9 @@ void Entity::update(float deltaTime)
 
 
     // --- Clamp to terminal velocity ---
-    float speed = std::sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
-    if (speed > maxVelocity) {
-        velocity = (velocity / speed) * maxVelocity;
+    if(velocity.length()>terminalVelocity){
+        velocity = velocity.normalized()*terminalVelocity;
     }
-
     resolveCollisions({velocity.x * deltaTime,0});
     resolveCollisions({0,velocity.y * deltaTime});
     

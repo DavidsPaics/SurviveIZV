@@ -3,6 +3,7 @@
 #include "Utils/logging.hpp"
 #include "Entities/Player.hpp"
 #include "Entities/InfectedPelmenis.hpp"
+#include "Entities/InfectedKvass.hpp"
 #include "Utils/globals.hpp"
 #include "Game/Camera.hpp"
 #include "Utils/Math.hpp"
@@ -77,6 +78,10 @@ void World::loadMap(const std::string& name)
     auto pelmenis = new InfectedPelmenis(*this);
     pelmenis->setPosition({10,5});
     entities.push_back(std::unique_ptr<InfectedPelmenis>(pelmenis));
+
+    auto kvass = new InfectedKvass(*this);
+    kvass->setPosition({10,5});
+    entities.push_back(std::unique_ptr<InfectedKvass>(kvass));
 
     levelName = name;
 
