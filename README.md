@@ -1,6 +1,7 @@
 # Survive IZV!!!
 
-
+flags for tiles:
+00000000000000000000000000000001 - collidable (default squeare)
 
 ### How to Use
 

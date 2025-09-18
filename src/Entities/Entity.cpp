@@ -77,7 +77,7 @@ void Entity::resolveCollisions(const sf::Vector2f& delta)
     for (int y = minY; y <= maxY; y++) {
         for (int x = minX; x <= maxX; x++) {
             int tileIndex = y * world.getMapSize().x + x;
-            if (world.getMapTileInfo()[(world.getMap())[tileIndex]].layer == 1) { // collidable tile
+            if (world.getMapTileInfo()[(world.getMap())[tileIndex]].flags & 1) { // collidable tile
                 sf::FloatRect tileRect({float(x), float(y)}, {1.f, 1.f});
 
                 // Check intersection along X axis
@@ -109,7 +109,7 @@ void Entity::resolveCollisions(const sf::Vector2f& delta)
     for (int y = minY; y <= maxY; y++) {
         for (int x = minX; x <= maxX; x++) {
             int tileIndex = y * world.getMapSize().x + x;
-            if (world.getMapTileInfo()[(world.getMap())[tileIndex]].layer == 1) { // collidable tile
+            if (world.getMapTileInfo()[(world.getMap())[tileIndex]].flags & 1) { // collidable tile
                 sf::FloatRect tileRect({float(x), float(y)}, {1.f, 1.f});
 
                 // Check intersection along Y axis
