@@ -8,12 +8,12 @@ InfectedPelmenis::InfectedPelmenis(World& worldRef) : Entity(worldRef){
 }
 
 void InfectedPelmenis::update(float deltaTime){
-    if (lungeClock.getElapsedTime().asSeconds() > 1.5f){
+    if (lungeClock.getElapsedTime().asSeconds() > 0.95f){
         lungeClock.restart();
         lungeDuration.restart();
         movementDirection = (world.getPlayer().getPosition() - position).normalized();
     }
-    if (lungeDuration.isRunning() && lungeDuration.getElapsedTime().asSeconds()>0.25f){
+    if (lungeDuration.isRunning() && lungeDuration.getElapsedTime().asSeconds()>0.9f){
         lungeDuration.reset();
     }
 
