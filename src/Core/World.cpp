@@ -89,6 +89,8 @@ void World::loadMap(const std::string& name)
 
     file >> mapWidth >> mapHeight;
     mapData.resize(mapWidth * mapHeight);
+    globals::mapSize.x=mapWidth;
+    globals::mapSize.y=mapHeight;
 
     float spawnPosX, spawnPosY;
     file >> spawnPosX >> spawnPosY;
@@ -113,6 +115,7 @@ void World::loadMap(const std::string& name)
         file >> id >> flags >> layer;
         tileInfo[id] = {id,flags,layer};
     }
-
+    
+    
     logging::INFO("Loaded map:", name);
 }
