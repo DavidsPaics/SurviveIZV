@@ -76,7 +76,7 @@ void World::loadMap(const std::string& name)
     }
 
     auto pelmenis = new InfectedPelmenis(*this);
-    pelmenis->setPosition({10,5});
+    pelmenis->setPosition({18,114});
     entities.push_back(std::unique_ptr<InfectedPelmenis>(pelmenis));
 
     auto kvass = new InfectedKvass(*this);
