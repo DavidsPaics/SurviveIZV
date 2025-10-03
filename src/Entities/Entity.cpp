@@ -6,7 +6,7 @@
 #include "Utils/TextureManager.hpp"
 #include "Utils/globals.hpp"
 #include "Core/Game.hpp"
-#include "Utils/Math.hpp"
+#include "Utils/math.hpp"
 #include "Core/World.hpp"
 
 Entity::Entity(World& worldRef) : sprite(TextureManager::getInstance().getTexture("error")), world(worldRef) {

@@ -6,7 +6,7 @@
 #include "Entities/InfectedKvass.hpp"
 #include "Utils/globals.hpp"
 #include "Game/Camera.hpp"
-#include "Utils/Math.hpp"
+#include "Utils/math.hpp"
 #include <fstream>
 #include <set>
 #include <string>

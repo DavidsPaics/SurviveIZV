@@ -1,5 +1,5 @@
 #include "Camera.hpp"
-#include "Utils/Math.hpp"
+#include "Utils/math.hpp"
 #include <cmath>
 
 Camera::Camera(float windowWidth, float windowHeight)
