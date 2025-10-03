@@ -11,7 +11,10 @@ void InfectedPelmenis::update(float deltaTime){
     if (lungeClock.getElapsedTime().asSeconds() > 0.95f){
         lungeClock.restart();
         lungeDuration.restart();
-        movementDirection = (world.getPlayer().getPosition() - position).normalized();
+        if ((world.getPlayer().getPosition() - position).length()>0)
+            movementDirection = (world.getPlayer().getPosition() - position).normalized();
+        else
+            movementDirection={0,0};
     }
     if (lungeDuration.isRunning() && lungeDuration.getElapsedTime().asSeconds()>0.9f){
         lungeDuration.reset();
