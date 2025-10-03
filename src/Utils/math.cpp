@@ -3,10 +3,11 @@
 #include <string>   
 #include "Utils/logging.hpp"
 
+//! PATHFINDING ASSUMES THE COORDINATE IS IN THE CENTER OF THE TILE
 
-
-inline std::vector<std::vector<std::pair<int, int>>> mapGraph; //pair<int,int> is pair<vertex, weight> for dijkstra
-
+inline void generateGraphFromMap(){
+    
+}
 
 inline void dijkstra(int s, std::vector<int> & distance, std::vector<int> & path) {
     

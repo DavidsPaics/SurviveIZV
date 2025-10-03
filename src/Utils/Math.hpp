@@ -76,8 +76,7 @@ inline sf::Vector2f mapIndexToCoords(int mapIndex){
     return {x,y};
 }
 
-
-
+inline std::vector<std::vector<std::pair<int, int>>> mapGraph; //pair<int,int> is pair<vertex, weight> for dijkstra
 
 inline void dijkstra(int s, std::vector<int> & distance, std::vector<int> & path);
 inline std::vector<sf::Vector2f> pathfind(sf::Vector2f startPos,sf::Vector2f endPos);
