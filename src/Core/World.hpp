@@ -5,7 +5,7 @@
 #include <memory>
 #include "Entities/Player.hpp"
 #include "Entities/Entity.hpp"
-#include "Game/Camera.hpp"
+#include "Ui/Camera.hpp"
 
 struct Tile{
     int textureIndex;

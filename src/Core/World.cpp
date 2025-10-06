@@ -5,7 +5,7 @@
 #include "Entities/InfectedPelmenis.hpp"
 #include "Entities/InfectedKvass.hpp"
 #include "Utils/globals.hpp"
-#include "Game/Camera.hpp"
+#include "Ui/Camera.hpp"
 #include "Utils/math.hpp"
 #include <fstream>
 #include <set>

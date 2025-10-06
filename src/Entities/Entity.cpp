@@ -17,15 +17,6 @@ Entity::Entity(World& worldRef) : sprite(TextureManager::getInstance().getTextur
 
 void Entity::update(float deltaTime)
 {
-    //Taken from player.cpp
-
-    // --- Input Acceleration ---
-    // movementDirection = {0,0};
-    // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) movementDirection.y -= 1.f;
-    // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) movementDirection.y += 1.f;
-    // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) movementDirection.x -= 1.f;
-    // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) movementDirection.x += 1.f;
-
     if (movementDirection.length()>0)
         movementDirection = movementDirection.normalized();
     

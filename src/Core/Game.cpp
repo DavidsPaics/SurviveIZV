@@ -1,8 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include "Utils/logging.hpp"
-#include "Game.hpp"
+#include "Core/Game.hpp"
 #include "Utils/globals.hpp"
-#include "Game/Camera.hpp"
+#include "Ui/Camera.hpp"
 #include "Utils/TextureManager.hpp"
 
 Game::Game(sf::RenderWindow &window) : window(window), world("IZV-main"), renderTexture(globals::renderResolution), renderSprite(renderTexture.getTexture())
