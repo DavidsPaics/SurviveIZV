@@ -67,17 +67,12 @@ inline bool circleRectCollision(const sf::FloatRect& rect, const sf::Vector2f& c
     return (dx * dx + dy * dy) <= (radius * radius);
 }
 
-inline int coordsToMapIndex(int x, int y){
-    return globals::mapSize.x*y+x;
-}
-inline sf::Vector2f mapIndexToCoords(int mapIndex){
-    int y = globals::mapSize.y;
-    int x = globals::mapSize.y;
-    return {x,y};
-}
+inline int coordsToMapIndex(int x, int y);
+inline sf::Vector2f mapIndexToCoords(int mapIndex);
 
-inline std::vector<std::vector<std::pair<int, int>>> mapGraph; //pair<int,int> is pair<vertex, weight> for dijkstra
 
+inline std::vector<std::vector<std::pair<int, double>>> mapGraph; //pair<int,int> is pair<vertex, weight> for dijkstra
+inline void generateGraphFromMap();
 inline void dijkstra(int s, std::vector<int> & distance, std::vector<int> & path);
 inline std::vector<sf::Vector2f> pathfind(sf::Vector2f startPos,sf::Vector2f endPos);
 

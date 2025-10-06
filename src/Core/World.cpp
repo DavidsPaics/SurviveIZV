@@ -68,6 +68,8 @@ void World::handleEvent(sf::Event& event)
 
 void World::loadMap(const std::string& name)
 {
+    delete globals::currentWorld;
+    globals::currentWorld = this;
     std::ifstream file("assets/maps/" + name + ".game-map");
 
     if (!file.is_open()) {
@@ -89,8 +91,6 @@ void World::loadMap(const std::string& name)
 
     file >> mapWidth >> mapHeight;
     mapData.resize(mapWidth * mapHeight);
-    globals::mapSize.x=mapWidth;
-    globals::mapSize.y=mapHeight;
 
     float spawnPosX, spawnPosY;
     file >> spawnPosX >> spawnPosY;

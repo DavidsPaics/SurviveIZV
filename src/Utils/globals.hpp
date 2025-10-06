@@ -9,5 +9,5 @@ namespace globals {
     inline constexpr auto renderResolution = sf::Vector2u({640*scalingFactor,360*scalingFactor});
     inline constexpr auto tileSize = 32;
     inline constexpr auto scaledTileSize = tileSize * scalingFactor;
-    inline sf::Vector2i mapSize;
+    inline World* currentWorld = nullptr;
 }
