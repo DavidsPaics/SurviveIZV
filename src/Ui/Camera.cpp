@@ -15,6 +15,12 @@ void Camera::setTarget(const sf::Vector2f& target) {
     targetPos = tilesToPixelsV2F(target);
 }
 
+void Camera::setCenter(const sf::Vector2f& target) {
+    targetPos = tilesToPixelsV2F(target);
+    view.setCenter(tilesToPixelsV2F(target));
+    smoothPos = tilesToPixelsV2F(target);
+}
+
 void Camera::setZoom(float zoom) {
     // Calculate relative factor from current zoom
     float factor = zoom / currentZoom;

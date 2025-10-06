@@ -19,10 +19,11 @@ void Game::run()
 
     sf::Clock deltaClock, fpsUpdateClock;
     float deltaTime = 0.0f;
-
+    
     int frameCount = 0;
-
+    
     Camera camera(renderTexture.getSize().x, renderTexture.getSize().y);
+    camera.setCenter(world.getPlayer().getPosition());
 
 
     while (window.isOpen())
@@ -36,12 +37,13 @@ void Game::run()
             fpsUpdateClock.restart();
         }
         
-
         handleEvents();
         world.update(deltaTime);
 
+
         camera.setTarget(world.getPlayer().getPosition());
         camera.update(deltaTime);
+
 
         renderTexture.setView(camera.getView());
         
