@@ -1,15 +1,15 @@
-#pragma once
+             #pragma once
 
-#include <SFML/Graphics.hpp>
-#include "Entities/Entity.hpp"
+     #include <SFML/Graphics.hpp>
+    #include "Entities/Entity.hpp"
 
-class World;
+             class World;
 
-class Player : public Entity {
-public:
-    Player(World& worldRef);
+    class Player : public Entity {
+                public:
+       Player(World& worldRef);
 
     void handleEvent(sf::Event& event) {};
 
     void update(float deltaTime) override;
-};
+                  };

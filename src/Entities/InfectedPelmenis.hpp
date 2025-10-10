@@ -1,13 +1,13 @@
-#pragma once
+              #pragma once
 
-#include <Entities/Entity.hpp>
+     #include <Entities/Entity.hpp>
 
 class InfectedPelmenis : public Entity {
-public:
+                 public:
     InfectedPelmenis(World& worldRef);
     void update(float deltaTime) override;
 
-private:
-    sf::Clock lungeClock;
-    sf::Clock lungeDuration;
-};
+                private:
+          sf::Clock lungeClock;
+        sf::Clock lungeDuration;
+                   };

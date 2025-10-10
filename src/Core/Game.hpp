@@ -1,20 +1,20 @@
-#include <SFML/Graphics.hpp>
-#include "Core/World.hpp"
-#pragma once
+  #include <SFML/Graphics.hpp>
+    #include "Core/World.hpp"
+          #pragma once
 
-class Game {
-public:
+          class Game {
+             public:
     Game(sf::RenderWindow &window);
-    void run();
+           void run();
 
-private:
-    void handleEvents();
-    void handleResize();
+            private:
+      void handleEvents();
+      void handleResize();
 
-private:
+            private:
     sf::RenderWindow& window;
     sf::RenderTexture renderTexture;
     sf::Sprite renderSprite;
 
-    World world;
-};
+          World world;
+               };
