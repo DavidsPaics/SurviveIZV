@@ -82,7 +82,7 @@ void World::loadMap(const std::string& name)
     entities.push_back(std::unique_ptr<InfectedPelmenis>(pelmenis));
 
     auto kvass = new InfectedKvass(*this);
-    kvass->setPosition({10,5});
+    kvass->setPosition({15,110});
     entities.push_back(std::unique_ptr<InfectedKvass>(kvass));
 
     levelName = name;
@@ -116,6 +116,6 @@ void World::loadMap(const std::string& name)
         tileInfo[id] = {id,flags,layer};
     }
     
-    
+    generateGraphFromMap();
     logging::INFO("Loaded map:", name);
 }

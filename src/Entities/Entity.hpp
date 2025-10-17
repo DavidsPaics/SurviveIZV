@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Utils/math.hpp"
 #include <SFML/Graphics.hpp>
 #include "Utils/TextureManager.hpp"
 #include <vector>
@@ -17,6 +17,11 @@ public:
     sf::Vector2f getVelocity() { return velocity; }
     void setPosition(const sf::Vector2f& pos) {position = pos;}
 
+    void walkTo(const sf::Vector2f& pos){
+        targetPos=pos;
+        nextPos = pathfind(position,targetPos);
+    }
+
 protected:
     sf::Sprite sprite;
     sf::Vector2f position {0.f,0.f};
@@ -29,7 +34,10 @@ protected:
     void resolveCollisions(const sf::Vector2f& delta);
 
     float terminalVelocity = 5.f;
-
+    
+    sf::Vector2f targetPos = {-1,-1};
+    sf::Vector2f nextPos = {-1,-1};
+    sf::Clock timeSincePathUpdate;      
     // --- Constants you can tweak ---
     float acceleration = 35.f;   // how fast it speeds up
     float drag = 7.f;              // how fast it slows down (lower = more slippery)

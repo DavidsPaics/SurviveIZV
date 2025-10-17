@@ -4,22 +4,26 @@
 #include <cmath>
 #include "Utils/logging.hpp"
 #include "Core/World.hpp"
+#include <queue>
+bool isWithinRange(float x,float y, float range){
+    return abs(x-y) <= range;
+}
 
-
-inline int coordsToMapIndex(int x, int y){
+int coordsToMapIndex(int x, int y){
     return globals::currentWorld->getMapSize().x*y+x;
 }
-inline sf::Vector2f mapIndexToCoords(int mapIndex){
-    int x = globals::currentWorld->getMapSize().x;
-    int y = globals::currentWorld->getMapSize().y;
-    return {static_cast<float>(x),static_cast<float>(y)};
+sf::Vector2f mapIndexToCoords(int mapIndex){
+    int width = globals::currentWorld->getMapSize().x;
+    int height = globals::currentWorld->getMapSize().y;
+    int y = mapIndex/width;
+    return {static_cast<float>(mapIndex-y*width),static_cast<float>(y)};
 }
 
 
 
 //! PATHFINDING ASSUMES THE COORDINATE IS IN THE CENTER OF THE TILE
 
-inline void generateGraphFromMap(){
+void generateGraphFromMap(){
     int width =globals::currentWorld->getMapSize().x,height = globals::currentWorld->getMapSize().y;
     mapGraph.resize(width*height);
     auto isCollidable = [](int index){
@@ -31,7 +35,7 @@ inline void generateGraphFromMap(){
     int index=0;
     for(int i=0;i<height;i++){
         for(int j=0;j<width;j++){
-            if(!isEmpty(index) && !isCollidable(index)){
+            if(isEmpty(index) || isCollidable(index)){
                 index++;
                 continue;
             }
@@ -52,53 +56,58 @@ inline void generateGraphFromMap(){
     }
 }
 
-inline void dijkstra(int s, std::vector<int> & distance, std::vector<int> & path) {
-    
+void dijkstra(int startIndex, std::vector<int> & distance, std::vector<int> & path) {
     int n = mapGraph.size();
     distance.assign(n, 1000000000);
     path.assign(n, -1);
-    std::vector<bool> u(n, false);
 
-    distance[s] = 0;
-    for (int i = 0; i < n; i++) {
-        int v = -1;
-        for (int j = 0; j < n; j++) {
-            if (!u[j] && (v == -1 || distance[j] < distance[v]))
-                v = j;
-        }
+    distance[startIndex] = 0;
+    std::priority_queue<std::pair<int,int>, std::vector<std::pair<int,int>>, std::greater<std::pair<int,int>>> queue;
+    queue.push({0, startIndex});
+    while (!queue.empty()) {
+        int vertex = queue.top().second;
+        int distanceToVertex = queue.top().first;
+        queue.pop();
+        if (distanceToVertex != distance[vertex])
+            continue;
 
-        if (distance[v] == 1000000000)
-            break;
-
-        u[v] = true;
-        for (auto edge : mapGraph[v]) {
+        for (auto edge : mapGraph[vertex]) {
             int to = edge.first;
-            int len = edge.second;
+            int length = edge.second;
 
-            if (distance[v] + len < distance[to]) {
-                distance[to] = distance[v] + len;
-                path[to] = v;
+            if (distance[vertex] + length < distance[to]) {
+                distance[to] = distance[vertex] + length;
+                path[to] = vertex;
+                queue.push({distance[to], to});
             }
         }
     }
 }
-inline std::vector<sf::Vector2f> pathfind(sf::Vector2f startPos,sf::Vector2f endPos){
+sf::Vector2f pathfind(sf::Vector2f startPos,sf::Vector2f endPos){
+    if(endPos.x ==-1 && endPos.y ==-1)
+        return startPos;
+    sf::Vector2f standardOffset({0.2001F,0.2001F}); //TODO make this not hard coded
+    startPos+=standardOffset; 
+    endPos+=standardOffset;
     int startIndex=coordsToMapIndex(startPos.x,startPos.y);
     std::vector<int> distance;
     std::vector<int> path;
     dijkstra(startIndex,distance,path);
     int endIndex = coordsToMapIndex(endPos.x,endPos.y);
-    std::vector<sf::Vector2f> res = {mapIndexToCoords(endIndex)};
     int i=endIndex;
-    sf::Vector2f coords;
+    if(startIndex==endIndex)
+        return startPos;
     while (path[i]!=startIndex){
-        coords = mapIndexToCoords(path[i]);
-        coords.x+=0.5;
-        coords.y+=0.5;
-        res.push_back({coords});
         i=path[i];
+        if(i ==-1){
+            logging::ERROR("Pathfinding-path not found");
+            return startPos-standardOffset; 
+        }
     }
-    std::reverse(res.begin(),res.end());
-    return res;
+    sf::Vector2f coords;
+    coords = mapIndexToCoords(i);
+    coords.x+=0.5;
+    coords.y+=0.5;
+    return coords;
 }
 
