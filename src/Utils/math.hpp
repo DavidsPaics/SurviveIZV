@@ -17,6 +17,9 @@ inline float pixelsToTiles(float pixels) {
 inline sf::Vector2f pixelsToTilesV2F(sf::Vector2f pixels) {
     return {pixelsToTiles(pixels.x), pixelsToTiles(pixels.y)};
 }
+inline sf::FloatRect pixelsToTilesFloatRect(sf::FloatRect pixels) {
+    return sf::FloatRect({pixelsToTiles(pixels.position.x), pixelsToTiles(pixels.position.y)},{pixelsToTiles(pixels.size.x), pixelsToTiles(pixels.size.y)});
+}
 
 
 // --------------------------------
