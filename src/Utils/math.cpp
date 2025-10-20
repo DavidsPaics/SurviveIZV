@@ -83,7 +83,57 @@ void dijkstra(int startIndex, std::vector<int> & distance, std::vector<int> & pa
         }
     }
 }
-sf::Vector2f pathfind(sf::Vector2f startPos,sf::Vector2f endPos){
+sf::Vector2f pathfind(sf::Vector2f startPos,sf::Vector2f endPos, sf::FloatRect colliderRect){
+
+    bool lineOfSight = true;
+    std::pair<sf::Vector2f, sf::Vector2f> lines[4];
+    constexpr float lineSafetyPadding = 0.01f;
+
+    // Define the 4 corners of the AABB being raytraced
+    lines[0] = {startPos-sf::Vector2f(lineSafetyPadding,lineSafetyPadding), endPos+sf::Vector2f(lineSafetyPadding,lineSafetyPadding)};
+    lines[1] = {startPos + sf::Vector2f(colliderRect.size.x, 0)-sf::Vector2f(lineSafetyPadding,lineSafetyPadding), endPos + sf::Vector2f(colliderRect.size.x, 0)+sf::Vector2f(lineSafetyPadding,lineSafetyPadding)};
+    lines[2] = {startPos + sf::Vector2f(0, colliderRect.size.y)-sf::Vector2f(lineSafetyPadding,lineSafetyPadding), endPos + sf::Vector2f(0, colliderRect.size.y)+sf::Vector2f(lineSafetyPadding,lineSafetyPadding)};
+    lines[3] = {startPos + sf::Vector2f(colliderRect.size.x, colliderRect.size.y)-sf::Vector2f(lineSafetyPadding,lineSafetyPadding), endPos + sf::Vector2f(colliderRect.size.x, colliderRect.size.y)+sf::Vector2f(lineSafetyPadding,lineSafetyPadding)};
+
+    for (auto& line : lines) {
+        // Convert float positions to int tile coords
+        int x0 = static_cast<int>(line.first.x);
+        int y0 = static_cast<int>(line.first.y);
+        int x1 = static_cast<int>(line.second.x);
+        int y1 = static_cast<int>(line.second.y);
+
+        int dx = std::abs(x1 - x0);
+        int dy = std::abs(y1 - y0);
+        int sx = (x0 < x1) ? 1 : -1;
+        int sy = (y0 < y1) ? 1 : -1;
+        int err = dx - dy;
+        while (true) {
+            // Check for collision at current tile
+            int index = coordsToMapIndex(x0, y0);
+            if (globals::currentWorld->getMapTileInfo()[globals::currentWorld->getMap()[index]].flags & 1) {
+                lineOfSight = false;
+                break;
+            }
+            if (x0 == x1 && y0 == y1)
+                break;
+            int e2 = 2 * err;
+            if (e2 > -dy) {
+                err -= dy;
+                x0 += sx;
+            }
+            if (e2 < dx) {
+                err += dx;
+                y0 += sy;
+            }
+        }
+
+        if (!lineOfSight)
+            break;
+    }
+
+    if (lineOfSight)
+        return endPos+sf::Vector2f({colliderRect.size.x/2, colliderRect.size.y/2});
+
     if(endPos.x ==-1 && endPos.y ==-1)
         return startPos;
     sf::Vector2f standardOffset({0.2001F,0.2001F}); //TODO make this not hard coded

@@ -78,5 +78,5 @@ sf::Vector2f mapIndexToCoords(int mapIndex);
 inline std::vector<std::vector<std::pair<int, double>>> mapGraph; //pair<int,int> is pair<vertex, weight> for dijkstra
 void generateGraphFromMap();
 void dijkstra(int s, std::vector<int> & distance, std::vector<int> & path);
-sf::Vector2f pathfind(sf::Vector2f startPos,sf::Vector2f endPos);
+sf::Vector2f pathfind(sf::Vector2f startPos,sf::Vector2f endPos, sf::FloatRect colliderRect = sf::FloatRect({0,0},{1,1}));
 
