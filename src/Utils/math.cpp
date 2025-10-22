@@ -66,7 +66,7 @@ void dijkstra(int startIndex, std::vector<double> & distance, std::vector<int> &
     path.assign(n, -1);
 
     distance[startIndex] = 0;
-    std::priority_queue<std::pair<int,double>, std::vector<std::pair<int,double>>, std::greater<std::pair<int,double>>> queue;
+    std::priority_queue<std::pair<double,int>, std::vector<std::pair<double,int>>, std::greater<std::pair<double,int>>> queue;
     queue.push({0, startIndex});
     while (!queue.empty()) {
         int vertex = queue.top().second;
