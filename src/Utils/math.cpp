@@ -60,24 +60,24 @@ void generateGraphFromMap(){
     }
 }
 
-void dijkstra(int startIndex, std::vector<int> & distance, std::vector<int> & path) {
+void dijkstra(int startIndex, std::vector<double> & distance, std::vector<int> & path) {
     int n = mapGraph.size();
     distance.assign(n, 1000000000);
     path.assign(n, -1);
 
     distance[startIndex] = 0;
-    std::priority_queue<std::pair<int,int>, std::vector<std::pair<int,int>>, std::greater<std::pair<int,int>>> queue;
+    std::priority_queue<std::pair<int,double>, std::vector<std::pair<int,double>>, std::greater<std::pair<int,double>>> queue;
     queue.push({0, startIndex});
     while (!queue.empty()) {
         int vertex = queue.top().second;
-        int distanceToVertex = queue.top().first;
+        double distanceToVertex = queue.top().first;
         queue.pop();
         if (distanceToVertex != distance[vertex])
             continue;
 
         for (auto edge : mapGraph[vertex]) {
             int to = edge.first;
-            int length = edge.second;
+            double length = edge.second;
 
             if (distance[vertex] + length < distance[to]) {
                 distance[to] = distance[vertex] + length;
@@ -144,7 +144,7 @@ sf::Vector2f pathfind(sf::Vector2f startPos,sf::Vector2f endPos, sf::FloatRect c
     startPos+=standardOffset; 
     endPos+=standardOffset;
     int startIndex=coordsToMapIndex(startPos.x,startPos.y);
-    std::vector<int> distance;
+    std::vector<double> distance;
     std::vector<int> path;
     dijkstra(startIndex,distance,path);
     int endIndex = coordsToMapIndex(endPos.x,endPos.y);
