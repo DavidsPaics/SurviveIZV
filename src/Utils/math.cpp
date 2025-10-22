@@ -47,7 +47,7 @@ void generateGraphFromMap(){
                 mapGraph[index].push_back({index+width,1});
                 mapGraph[index+width].push_back({index,1});
             }
-            if(j!=width-1 && i != height-1 && !isEmpty(index+width+1) && !isCollidable(index+index+1)){
+            if(j!=width-1 && i != height-1 && !isEmpty(index+width+1) && !isCollidable(index+width+1)){
             mapGraph[index].push_back(std::pair<int,double>(index+width+1,std::sqrt(2)));
             mapGraph[index+width+1].push_back(std::pair<int,double>(index+width+1,std::sqrt(2)));
             }
