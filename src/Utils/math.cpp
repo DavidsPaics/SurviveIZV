@@ -90,10 +90,10 @@ sf::Vector2f pathfind(sf::Vector2f startPos,sf::Vector2f endPos, sf::FloatRect c
     constexpr float lineSafetyPadding = 0.01f;
 
     // Define the 4 corners of the AABB being raytraced
-    lines[0] = {startPos-sf::Vector2f(lineSafetyPadding,lineSafetyPadding), endPos+sf::Vector2f(lineSafetyPadding,lineSafetyPadding)};
-    lines[1] = {startPos + sf::Vector2f(colliderRect.size.x, 0)-sf::Vector2f(lineSafetyPadding,lineSafetyPadding), endPos + sf::Vector2f(colliderRect.size.x, 0)+sf::Vector2f(lineSafetyPadding,lineSafetyPadding)};
-    lines[2] = {startPos + sf::Vector2f(0, colliderRect.size.y)-sf::Vector2f(lineSafetyPadding,lineSafetyPadding), endPos + sf::Vector2f(0, colliderRect.size.y)+sf::Vector2f(lineSafetyPadding,lineSafetyPadding)};
-    lines[3] = {startPos + sf::Vector2f(colliderRect.size.x, colliderRect.size.y)-sf::Vector2f(lineSafetyPadding,lineSafetyPadding), endPos + sf::Vector2f(colliderRect.size.x, colliderRect.size.y)+sf::Vector2f(lineSafetyPadding,lineSafetyPadding)};
+    lines[0] = {startPos+sf::Vector2f(-lineSafetyPadding,-lineSafetyPadding), endPos+sf::Vector2f(-lineSafetyPadding,-lineSafetyPadding)};
+    lines[1] = {startPos + sf::Vector2f(colliderRect.size.x, 0)+sf::Vector2f(lineSafetyPadding,-lineSafetyPadding), endPos + sf::Vector2f(colliderRect.size.x, 0)+sf::Vector2f(lineSafetyPadding,+lineSafetyPadding)};
+    lines[2] = {startPos + sf::Vector2f(0, colliderRect.size.y)+sf::Vector2f(-lineSafetyPadding,lineSafetyPadding), endPos + sf::Vector2f(0, colliderRect.size.y)+sf::Vector2f(-lineSafetyPadding,lineSafetyPadding)};
+    lines[3] = {startPos + sf::Vector2f(colliderRect.size.x, colliderRect.size.y)+sf::Vector2f(lineSafetyPadding,lineSafetyPadding), endPos + sf::Vector2f(colliderRect.size.x, colliderRect.size.y)+sf::Vector2f(lineSafetyPadding,lineSafetyPadding)};
 
     for (auto& line : lines) {
         // Convert float positions to int tile coords
