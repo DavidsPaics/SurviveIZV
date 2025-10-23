@@ -2,10 +2,20 @@
 #include "Utils/math.hpp"
 #include <Core/World.hpp>
 
+/*
+TODO: Figure out a good way to keep track of animation indicies
+
+Current animations:
+#0 - Idle (2 Frames)
+*/
+
 InfectedKvass::InfectedKvass(World& worldRef) : Entity(worldRef){
     sprite.setTexture(TextureManager::getInstance().getTexture("entities/kvass"));
 
-    terminalVelocity=3.f;
+    setupAnimations(1,{2});
+    playLoopingAnimation(0);
+
+    terminalVelocity=1.f;
     acceleration=500.f;
 }
 

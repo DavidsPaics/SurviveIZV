@@ -41,6 +41,8 @@ void Entity::update(float deltaTime)
     // logging::DEBUG("Position: (" + std::to_string(position.x) + ", " + std::to_string(position.y) + ")");
 
     sprite.setPosition(tilesToPixelsV2F(position));
+
+    updateAnimations();
 }
 
 sf::Sprite &Entity::getSprite()
