@@ -86,9 +86,9 @@ void World::loadMap(const std::string& name)
     kvass->setPosition({15,110});
     entities.push_back(std::unique_ptr<InfectedKvass>(kvass));
     
-    //auto spageti = new InfectedSpageti(*this);
-    //spageti->setPosition({16,110});
-    //entities.push_back(std::unique_ptr<InfectedSpageti>(spageti));
+    auto spageti = new InfectedSpageti(*this);
+    spageti->setPosition({16,110});
+    entities.push_back(std::unique_ptr<InfectedSpageti>(spageti));
 
     levelName = name;
 

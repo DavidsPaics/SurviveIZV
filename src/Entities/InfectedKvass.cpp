@@ -6,13 +6,13 @@
 TODO: Figure out a good way to keep track of animation indicies
 
 Current animations:
-#0 - Idle (2 Frames)
+#0 - moving left (can also be up and down) (4 Frames)
 */
 
 InfectedKvass::InfectedKvass(World& worldRef) : Entity(worldRef){
     sprite.setTexture(TextureManager::getInstance().getTexture("entities/kvass"));
 
-    setupAnimations(1,{4});
+    setupAnimations(2,{4});
     playLoopingAnimation(0);
 
     terminalVelocity=1.9f;

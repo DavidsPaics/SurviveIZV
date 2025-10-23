@@ -7,7 +7,8 @@
 InfectedSpageti::InfectedSpageti(World& worldRef) : Entity(worldRef){
     sprite.setTexture(TextureManager::getInstance().getTexture("entities/spageti"));
 
-    
+    terminalVelocity=2.3f;
+    acceleration=500.f;
 }
 
 void InfectedSpageti::update(float deltaTime){
