@@ -4,6 +4,7 @@
 #include "Entities/Player.hpp"
 #include "Entities/InfectedPelmenis.hpp"
 #include "Entities/InfectedKvass.hpp"
+#include "Entities/InfectedSpageti.hpp"
 #include "Utils/globals.hpp"
 #include "Ui/Camera.hpp"
 #include "Utils/math.hpp"
@@ -84,6 +85,10 @@ void World::loadMap(const std::string& name)
     auto kvass = new InfectedKvass(*this);
     kvass->setPosition({15,110});
     entities.push_back(std::unique_ptr<InfectedKvass>(kvass));
+    
+    //auto spageti = new InfectedSpageti(*this);
+    //spageti->setPosition({16,110});
+    //entities.push_back(std::unique_ptr<InfectedSpageti>(spageti));
 
     levelName = name;
 
