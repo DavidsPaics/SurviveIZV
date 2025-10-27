@@ -6,6 +6,7 @@
 class World;
 namespace globals {
     inline float globalSpeedMultiplier = 1;
+    inline bool isVsyncEnabled=1;
     inline constexpr auto scalingFactor = 4; // 2 - 8 is good
     inline constexpr auto renderResolution = sf::Vector2u({640*scalingFactor,360*scalingFactor});
     inline constexpr auto tileSize = 32;
