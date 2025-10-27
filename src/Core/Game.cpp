@@ -28,7 +28,7 @@ void Game::run()
 
     while (window.isOpen())
     {
-        deltaTime = deltaClock.restart().asSeconds();
+        deltaTime = deltaClock.restart().asSeconds()*globals::globalSpeedMultiplier;
         
         frameCount++;
         if (fpsUpdateClock.getElapsedTime().asSeconds() > 1) {
@@ -103,6 +103,17 @@ void Game::handleEvents()
         if (event->is<sf::Event::Closed>())
         {
             window.close();
+        }
+        else if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>())
+        {
+            if (keyPressed->scancode == sf::Keyboard::Scancode::F3)
+                logging::DEBUG("Player position:", world.getPlayer().getPosition().x, world.getPlayer().getPosition().y);
+            else if (keyPressed->scancode == sf::Keyboard::Scancode::F4){
+                if (globals::globalSpeedMultiplier==1)
+                globals::globalSpeedMultiplier = 0.5;
+                else
+                globals::globalSpeedMultiplier=1;
+            }
         }
     }
 }
