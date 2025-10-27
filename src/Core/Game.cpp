@@ -16,7 +16,7 @@ Game::Game(sf::RenderWindow &window) : window(window), world("IZV-main"), render
 void Game::run()
 {
     logging::INFO("Game started, resolution: ", globals::renderResolution.x, "x", globals::renderResolution.y, " (", globals::scalingFactor, "x scale)");
-    logging::INFO("Use F1 to toggle VSync, F3 to print player position, F4 to slow to half speed");
+    logging::INFO("Use F1 to toggle VSync, F3 to print player position, F4 to change global speed");
     sf::Clock deltaClock, fpsUpdateClock;
     float deltaTime = 0.0f;
     
@@ -31,8 +31,8 @@ void Game::run()
         deltaTime = deltaClock.restart().asSeconds()*globals::globalSpeedMultiplier;
         
         frameCount++;
-        if (fpsUpdateClock.getElapsedTime().asSeconds() > 5) {
-            std::cout << frameCount/5.f << " FPS\n";
+        if (fpsUpdateClock.getElapsedTime().asSeconds() > 3) {
+            std::cout << frameCount/3.f << " FPS\n";
             frameCount = 0;
             fpsUpdateClock.restart();
         }
@@ -109,21 +109,31 @@ void Game::handleEvents()
             if (keyPressed->scancode == sf::Keyboard::Scancode::F3)
                 logging::DEBUG("Player position:", world.getPlayer().getPosition().x, world.getPlayer().getPosition().y);
             else if (keyPressed->scancode == sf::Keyboard::Scancode::F4){
-                if (globals::globalSpeedMultiplier==1)
-                globals::globalSpeedMultiplier = 0.5;
-                else
-                globals::globalSpeedMultiplier=1;
-            }
-            else if (keyPressed->scancode == sf::Keyboard::Scancode::F4){
-                if (globals::globalSpeedMultiplier==1)
-                globals::globalSpeedMultiplier = 0.5;
-                else
-                globals::globalSpeedMultiplier=1;
+                if (globals::globalSpeedMultiplier==1){
+                    globals::globalSpeedMultiplier = 0.5;
+                } else if (globals::globalSpeedMultiplier==0.5) {
+                    globals::globalSpeedMultiplier=0.25;
+                } else if (globals::globalSpeedMultiplier==0.25) {
+                    globals::globalSpeedMultiplier=1.5;
+                } else if (globals::globalSpeedMultiplier==1.5) {
+                    globals::globalSpeedMultiplier=2;
+                } else {
+                    globals::globalSpeedMultiplier=1;
+                }
+                
+                logging::INFO(
+                    "Global game speed set to",
+                    globals::globalSpeedMultiplier
+                );
             }
             else if (keyPressed->scancode == sf::Keyboard::Scancode::F1){
                 globals::isVsyncEnabled = !globals::isVsyncEnabled;
                 window.setVerticalSyncEnabled(globals::isVsyncEnabled);
-                logging::INFO("VSync set to",globals::isVsyncEnabled);
+                logging::INFO(
+                    std::string("VSync set to ") +
+                    (globals::isVsyncEnabled ? "true" : "false") +
+                    (globals::isVsyncEnabled ? "" : (" (There is a limit of " + std::to_string(globals::framerateLimit) + "fps to stop unreliable input handling at framerates ~>1000fps)"))
+                );
             }
         }
     }

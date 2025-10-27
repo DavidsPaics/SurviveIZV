@@ -9,6 +9,7 @@ int main()
     auto window = sf::RenderWindow(sf::VideoMode(desktopMode), "Survive IZV");
     
     window.setVerticalSyncEnabled(true);
+    window.setFramerateLimit(globals::framerateLimit);
 
     MainMenu menu(window);
 
