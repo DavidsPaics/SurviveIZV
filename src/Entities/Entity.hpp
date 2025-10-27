@@ -67,6 +67,8 @@ protected:
         lastAnimationUpdateClock.restart();
     }
     void playLoopingAnimation(int index){
+        if (selectedAnimationIndex==index)
+        return;
         assert(index>=0&&index<animationTypes);
         selectedAnimationIndex = index;
         lastAnimationUpdateClock.restart();

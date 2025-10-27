@@ -12,7 +12,7 @@ Current animations:
 InfectedKvass::InfectedKvass(World& worldRef) : Entity(worldRef){
     sprite.setTexture(TextureManager::getInstance().getTexture("entities/kvass"));
 
-    setupAnimations(2,{4});
+    setupAnimations(2,{4,4});
     playLoopingAnimation(0);
 
     terminalVelocity=1.9f;
@@ -27,5 +27,9 @@ void InfectedKvass::update(float deltaTime){
         if(sf::Vector2f(nextPos-centerPosition).length()>0)
             movementDirection = (nextPos - centerPosition).normalized();
     }
+    if (movementDirection.x<0)
+    playLoopingAnimation(1);
+    else if (movementDirection.x>0)
+    playLoopingAnimation(0);
     Entity::update(deltaTime);
 }
