@@ -44,6 +44,7 @@ protected:
     float minVelocity = 0.035f;      // cutoff to stop jitter
     float maxVelocity = terminalVelocity;
 
+private:
     //Changed by the setupAnimations function
     int selectedAnimationIndex = -1;
     int selectedOneTimeAnimationIndex=-1;
@@ -52,7 +53,7 @@ protected:
     std::vector<int> animationFrameCountPerType = {1};
     float animationFrameDelaySeconds = 0.2f;
     sf::Clock lastAnimationUpdateClock;
-
+protected:
     /*
         animationCount - is the total amount of rows/types of animations
         animationFrames - is an initializer_list of the frame counts of each of the types
