@@ -3,6 +3,7 @@
 *.code-workspace
 
 # CMake build folders
+bin/
 build/
 CMakeFiles/
 CMakeCache.txt

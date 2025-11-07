@@ -41,7 +41,7 @@ void Game::run()
         world.update(deltaTime);
 
 
-        camera.setTarget(world.getPlayer().getPosition());
+        camera.setTarget(sf::Vector2f({15.f, world.getPlayer().getPosition().y}));
         camera.update(deltaTime);
 
 
